@@ -1,92 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rentvyne – Coming Soon</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rentvyne - Coming Soon</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #ffffff;
-      color: #111111;
-      min-height: 100vh;
+      background: #fff;
+      color: #111;
+    }
+    nav {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      text-align: center;
-      padding: 20px;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-
-    h1 {
-      font-size: 2.5rem;
+    nav .logo {
+      font-size: 1.5rem;
       font-weight: bold;
-      margin-bottom: 16px;
     }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 24px;
-      color: #444444;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 400px;
-      width: 100%;
-    }
-
-    input[type="email"] {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    button {
-      background-color: #2563eb; /* blue */
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s ease-in-out;
-    }
-
-    button:hover {
-      background-color: #1d4ed8; /* darker blue */
-    }
-
-    .footer {
+    nav a {
+      text-decoration: none;
+      color: #111;
       font-size: 0.9rem;
-      color: #777777;
-      margin-top: 20px;
+      margin-left: 1.5rem;
     }
-
-    @media (min-width: 600px) {
-      form {
-        flex-direction: row;
+    nav a:hover {
+      color: #e67e22;
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+      min-height: 80vh;
+    }
+    @media(min-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr 1fr;
       }
-      input[type="email"] {
-        margin-right: 10px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #e67e22;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      max-width: 500px;
+      line-height: 1.5;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: #e67e22;
+      color: #fff;
+      padding: 0.3rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .form-container {
+      margin-top: 2rem;
+    }
+    .form-container input {
+      padding: 0.8rem;
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .form-container button {
+      padding: 0.8rem 1.5rem;
+      background: #e67e22;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .form-container button:hover {
+      background: #cf711f;
+    }
+    .hero-img {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .hero-img img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+    .features {
+      background: #e67e22;
+      color: #fff;
+      text-align: center;
+    }
+    .features h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media(min-width: 768px) {
+      .feature-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
+    }
+    .feature-card {
+      background: #fff;
+      color: #111;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .why {
+      background: #f9f9f9;
+    }
+    .why h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .cta {
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .cta .stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    @media(min-width: 768px) {
+      .cta .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .cta .buttons button {
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .cta .primary-btn {
+      background: #e67e22;
+      color: #fff;
+      font-weight: bold;
+    }
+    .cta .secondary-btn {
+      background: transparent;
+      border: 1px solid #fff;
+      color: #fff;
+    }
+    footer {
+      padding: 2rem;
+      border-top: 1px solid #eee;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <h1>Rentvyne</h1>
-  <p>Smart Rent. Simple Living.<br/>Launching Soon.</p>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">RENTVYNE</div>
+    <div>
+      <a href="#">CONTACT</a>
+    </div>
+  </nav>
 
-  <form>
-    <input type="email" placeholder="Enter your email" required />
-    <button type="submit">Notify Me</button>
-  </form>
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <div class="badge">COMING SOON</div>
+      <h1>MODERN<br>PROPERTY<br>MANAGEMENT</h1>
+      <p>Smart Rent. Simple Living.</p>
+      <p>The ultimate platform for landlords and shortlet owners is launching soon. Get ready to revolutionize your property management experience.</p>
+      <div class="form-container">
+        <form>
+          <input type="email" placeholder="Enter your email for early access" required>
+          <button type="submit">Notify Me</button>
+        </form>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="https://static.wixstatic.com/media/d166c4_d4d4a25fa89d4d60b1b525c42a122b82~mv2.png?originWidth=576&originHeight=448" alt="Modern apartment interior">
+    </div>
+  </section>
 
-  <p class="footer">Be the first to know when we launch.</p>
+  <!-- Features -->
+  <section class="features">
+    <h2>What's Coming</h2>
+    <p>Powerful features designed for modern landlords and shortlet owners who demand efficiency and simplicity.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Tenant Management</h3>
+        <p>Organize tenant information, lease agreements, and communication in one centralized platform.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Rent Tracking</h3>
+        <p>Monitor payment schedules, track due dates, and maintain comprehensive payment histories.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Shortlet Management</h3>
+        <p>Manage short-term bookings, guest information, and availability with streamlined workflows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose -->
+  <section class="why">
+    <h2>Why Choose Rentvyne?</h2>
+    <p>We're building the most comprehensive property management platform that combines powerful features with intuitive design, specifically crafted for landlords and shortlet owners.</p>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta">
+    <h2>Get Early Access to Rentvyne</h2>
+    <p>Join our exclusive waitlist and be among the first to experience the future of property management.</p>
+    <div class="stats">
+      <div>
+        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">500+</div>
+        <div>Early Subscribers</div>
+      </div>
+      <div>
+        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">Q1 2024</div>
+        <div>Beta Launch</div>
+      </div>
+      <div>
+        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">100%</div>
+        <div>Free Beta Access</div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="primary-btn">Join Waitlist</button>
+      <button class="secondary-btn">Learn More</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Rentvyne. All rights reserved. Coming soon to revolutionize property management.
+  </footer>
 </body>
 </html>
