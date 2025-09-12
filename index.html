@@ -5,267 +5,253 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rentvyne - Coming Soon</title>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #111;
+      padding: 0;
+      box-sizing: border-box;
     }
-    nav {
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      justify-content: center;
+      color: #333;
     }
-    nav .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    nav a {
-      padding: 0.6rem 1.1rem;
-      background: #e67e22;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      margin-left: 0.5rem;
-      cursor: pointer;
-     text-decoration: none;
-    }
-/*     nav a:hover {
-      color: #e67e22;
-    } */
-    section {
-      padding: 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      align-items: center;
-      min-height: 80vh;
-    }
-    @media(min-width: 1024px) {
-      .hero {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 900;
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
       color: #e67e22;
       margin-bottom: 1rem;
+      letter-spacing: -1px;
     }
-    .hero p {
-      max-width: 500px;
-      line-height: 1.5;
-    }
-    .hero .badge {
+
+    .badge {
       display: inline-block;
-      background: #e67e22;
-      color: #fff;
-      padding: 0.3rem 1rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      margin-bottom: 1rem;
-    }
-    .form-container {
-      margin-top: 2rem;
-    }
-    .form-container input {
-      padding: 0.8rem;
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    .form-container button {
-      padding: 0.8rem 1.5rem;
-      background: #e67e22;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      margin-left: 0.5rem;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .form-container button:hover {
-      background: #cf711f;
-    }
-    .hero-img {
-      position: relative;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .hero-img img {
-      width: 100%;
-      display: block;
-      border-radius: 8px;
-    }
-    .features {
-      background: #e67e22;
-      color: #fff;
-      text-align: center;
-    }
-    .features h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    @media(min-width: 768px) {
-      .feature-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .feature-card {
-      background: #fff;
-      color: #111;
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    }
-    .why {
-      background: #f9f9f9;
-    }
-    .why h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .cta {
-      background: #111;
-      color: #fff;
-      text-align: center;
-    }
-    .cta h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .cta .stats {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    @media(min-width: 768px) {
-      .cta .stats {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .cta .buttons button {
-      padding: 1rem 2rem;
-      margin: 0.5rem;
-      font-size: 1rem;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-    .cta .primary-btn {
-      background: #e67e22;
-      color: #fff;
-      font-weight: bold;
-    }
-    .cta .secondary-btn {
-      background: transparent;
-      border: 1px solid #fff;
-      color: #fff;
-    }
-    footer {
-      padding: 2rem;
-      border-top: 1px solid #eee;
-      text-align: center;
+      background: linear-gradient(45deg, #e67e22, #f39c12);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 25px;
       font-size: 0.9rem;
-      color: #555;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #7f8c8d;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .description {
+      font-size: 1rem;
+      color: #5a6c7d;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .form-container {
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .email-input {
+      padding: 1rem 1.5rem;
+      border: 2px solid #e1e8ed;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .email-input:focus {
+      outline: none;
+      border-color: #e67e22;
+      box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+    }
+
+    .email-input::placeholder {
+      color: #a0aec0;
+    }
+
+    .notify-btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(45deg, #e67e22, #f39c12);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .notify-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(230, 126, 34, 0.3);
+    }
+
+    .notify-btn:active {
+      transform: translateY(0);
+    }
+
+    .features {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e1e8ed;
+    }
+
+    .features h3 {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .feature-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .feature-item {
+      background: rgba(230, 126, 34, 0.1);
+      color: #e67e22;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .form-group {
+        max-width: 100%;
+      }
+
+      .feature-list {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav>
+  <div class="container">
     <div class="logo">RENTVYNE</div>
-    <div>
-      <a href="#">CONTACT</a>
+    
+    <div class="badge">Coming Soon</div>
+    
+    <h1>Revolutionary Property Management</h1>
+    
+    <p class="subtitle">Smart Rent. Simple Living.</p>
+    
+    <p class="description">
+      The ultimate platform for landlords and property managers is launching soon. 
+      Get ready to transform your property management experience with cutting-edge technology.
+    </p>
+    
+    <div class="form-container">
+      <form class="form-group">
+        <input 
+          type="email" 
+          class="email-input" 
+          placeholder="Enter your email address" 
+          required
+        >
+        <button type="submit" class="notify-btn">Notify Me</button>
+      </form>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div>
-      <div class="badge">COMING SOON</div>
-      <h1>MODERN<br>PROPERTY<br>MANAGEMENT</h1>
-      <p>Smart Rent. Simple Living.</p>
-      <p>The ultimate platform for landlords and shortlet owners is launching soon. Get ready to revolutionize your property management experience.</p>
-      <div class="form-container">
-        <form>
-          <input type="email" placeholder="Enter your email for early access" required>
-          <button type="submit">Notify Me</button>
-        </form>
-      </div>
-    </div>
-    <div class="hero-img">
-      <img src="https://static.wixstatic.com/media/d166c4_d4d4a25fa89d4d60b1b525c42a122b82~mv2.png?originWidth=576&originHeight=448" alt="Modern apartment interior">
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features">
-    <h2>What's Coming</h2>
-    <p>Powerful features designed for modern landlords and shortlet owners who demand efficiency and simplicity.</p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h3>Tenant Management</h3>
-        <p>Organize tenant information, lease agreements, and communication in one centralized platform.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Rent Tracking</h3>
-        <p>Monitor payment schedules, track due dates, and maintain comprehensive payment histories.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Shortlet Management</h3>
-        <p>Manage short-term bookings, guest information, and availability with streamlined workflows.</p>
+    
+    <div class="features">
+      <h3>What to Expect</h3>
+      <div class="feature-list">
+        <span class="feature-item">Tenant Management</span>
+        <span class="feature-item">Rent Tracking</span>
+        <span class="feature-item">Property Analytics</span>
+        <span class="feature-item">Mobile App</span>
       </div>
     </div>
-  </section>
-
-  <!-- Why Choose -->
-  <section class="why">
-    <h2>Why Choose Rentvyne?</h2>
-    <p>We're building the most comprehensive property management platform that combines powerful features with intuitive design, specifically crafted for landlords and shortlet owners.</p>
-  </section>
-
-  <!-- Call to Action -->
-  <section class="cta">
-    <h2>Get Early Access to Rentvyne</h2>
-    <p>Join our exclusive waitlist and be among the first to experience the future of property management.</p>
-    <div class="stats">
-      <div>
-        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">500+</div>
-        <div>Early Subscribers</div>
-      </div>
-      <div>
-        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">Q4 2025</div>
-        <div>Beta Launch</div>
-      </div>
-      <div>
-        <div style="font-size:2rem; font-weight: bold; color:#e67e22;">100%</div>
-        <div>Free Beta Access</div>
-      </div>
+    
+    <div class="footer">
+<!--       © 2025 Rentvyne. All rights reserved. -->
     </div>
-    <div class="buttons">
-      <button class="primary-btn">Join Waitlist</button>
-      <button class="secondary-btn">Learn More</button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Rentvyne. All rights reserved. Coming soon to revolutionize property management.
-  </footer>
+  </div>
 </body>
 </html>
