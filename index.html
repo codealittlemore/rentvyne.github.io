@@ -3,121 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rent Vyne – Coming Soon</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-
+  <title>Rent Vyne Pitch Deck</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* =============================
-       Rent Vyne Brand Colors
-    ============================== */
-    :root {
-      --primary-green: #2BAF6C;
-      --primary-green-dark: #1F8A57;
-      --secondary-green: #8CE4B2;
-      --slate-gray: #2B2E3A;
-      --light-gray: #F5F7FA;
-      --soft-white: #FFFFFF;
-      --cool-gray: #E1E5EB;
-      --cta-blue: #3366FF;
-      --cta-blue-light: #5C85FF;
-      --warning-amber: #FFB020;
-      --error-red: #E54848;
-    }
-
-    /* =============================
-       Global Reset
-    ============================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--light-gray);
-      color: var(--slate-gray);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #4A148C 0%, #00796B 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .slide {
+      display: none;
       height: 100vh;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, #4A148C 0%, #00796B 100%);
+      color: white;
       text-align: center;
     }
-
-    /* =============================
-       Coming Soon Container
-    ============================== */
-    .container {
-      background: var(--soft-white);
-      padding: 3rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      width: 90%;
-      animation: fadeIn 1s ease-in-out;
+    .active {
+      display: block;
     }
-
-    /* Logo */
-    .logo {
-      max-width: 160px;
-      margin-bottom: 1.5rem;
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(90deg, #4A148C, #00796B);
+      width: 0%;
+      transition: width 0.3s ease;
     }
-
-    /* Heading */
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      color: var(--slate-gray);
-    }
-
-    /* Button */
-    .btn {
+    .feature-icon {
+      background: linear-gradient(135deg, #4A148C, #00796B);
+      padding: 1rem;
+      border-radius: 50%;
       display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
-      color: var(--soft-white);
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn:hover {
-      background: linear-gradient(90deg, var(--cta-blue), var(--cta-blue-light));
-      transform: translateY(-2px);
-    }
-
-    /* Animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: var(--cool-gray);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Rent Vyne Logo" class="logo" />
-    <h1>Rent Vyne</h1>
-    <p>We’re building a better way for landlords and shortlet owners to manage tenants and guest bookings.</p>
-    <a href="mailto:info@rentvyne.com" class="btn">Contact Us</a>
-    <footer>
-      &copy; 2025 Rent Vyne. All rights reserved.
-    </footer>
-  </div>
+  <!-- Progress bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Slide 1: Cover -->
+  <section class="slide active" id="slide1">
+    <div class="mb-8">
+      <img src="assets\61D1651C-E427-46AE-813A-3FEAEBE1B6C0.jpeg" alt="Rent Vyne Logo" class="w-32 mx-auto mb-6 rounded-2xl shadow-lg">
+      <h1 class="text-6xl font-bold mb-4">Rent Vyne</h1>
+      <p class="text-2xl text-gray-200 mb-8">Smart Rent. Simple Living.</p>
+    </div>
+  </section>
+
+  <!-- Slide 2: Problem -->
+  <section class="slide" id="slide2">
+    <h2 class="text-5xl font-bold mb-6">The Problem</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Landlords and shortlet owners struggle with scattered tenant management, delayed payments, and inefficient guest booking systems.</p>
+  </section>
+
+  <!-- Slide 3: Solution -->
+  <section class="slide" id="slide3">
+    <h2 class="text-5xl font-bold mb-6">Our Solution</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Rent Vyne is an all-in-one platform for managing tenants, shortlets, and payments with automation, transparency, and ease.</p>
+  </section>
+
+  <!-- Slide 4: Features -->
+  <section class="slide" id="slide4">
+    <h2 class="text-5xl font-bold mb-12">Key Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div>
+        <div class="feature-icon mb-4">🏠</div>
+        <p class="text-lg">Tenant & Property Management</p>
+      </div>
+      <div>
+        <div class="feature-icon mb-4">💳</div>
+        <p class="text-lg">Automated Rent Payments</p>
+      </div>
+      <div>
+        <div class="feature-icon mb-4">📊</div>
+        <p class="text-lg">Analytics & Reports</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Market -->
+  <section class="slide" id="slide5">
+    <h2 class="text-5xl font-bold mb-6">Market Opportunity</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Nigeria’s rental and shortlet market is worth billions annually, with growing demand for digital-first property management solutions.</p>
+  </section>
+
+  <!-- Slide 6: Business Model -->
+  <section class="slide" id="slide6">
+    <h2 class="text-5xl font-bold mb-6">Business Model</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">We earn through subscription plans for landlords and service fees on shortlet guest bookings.</p>
+  </section>
+
+  <!-- Slide 7: Traction -->
+  <section class="slide" id="slide7">
+    <h2 class="text-5xl font-bold mb-6">Traction</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Prototype live. Partnerships in discussion. Investor-ready for growth.</p>
+  </section>
+
+  <!-- Slide 8: Go-to-Market -->
+  <section class="slide" id="slide8">
+    <h2 class="text-5xl font-bold mb-6">Go-to-Market Strategy</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Target landlords, property managers, and shortlet owners via digital ads, partnerships, and referral programs.</p>
+  </section>
+
+  <!-- Slide 9: Competition -->
+  <section class="slide" id="slide9">
+    <h2 class="text-5xl font-bold mb-6">Competition</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">While proptech players exist, few offer a unified solution combining tenants, shortlets, and automated payments.</p>
+  </section>
+
+  <!-- Slide 10: Team -->
+  <section class="slide" id="slide10">
+    <h2 class="text-5xl font-bold mb-6">Our Team</h2>
+    <img src="assets\61D1651C-E427-46AE-813A-3FEAEBE1B6C0.jpeg" alt="Rent Vyne Logo" class="w-24 mx-auto mb-4 rounded-2xl shadow-md">
+    <p class="text-xl text-gray-100">Experienced in customer success, SaaS, and real estate support — ready to build Nigeria’s next leading proptech platform.</p>
+  </section>
+
+  <!-- Slide 11: Financials -->
+  <section class="slide" id="slide11">
+    <h2 class="text-5xl font-bold mb-6">Financial Projections</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100">Revenue growth projected through subscription adoption and transaction fees. (Insert table/graph here)</p>
+  </section>
+
+  <!-- Slide 12: Ask -->
+  <section class="slide" id="slide12">
+    <h2 class="text-5xl font-bold mb-6">Our Ask</h2>
+    <p class="text-xl max-w-3xl mx-auto text-gray-100 mb-8">We’re seeking investment to scale development, marketing, and operations for Rent Vyne.</p>
+    <a href="mailto:info@rentvyne.com" class="px-6 py-3 bg-white text-purple-900 rounded-lg font-bold shadow-lg hover:bg-gray-200">Contact Us</a>
+  </section>
+
+  <!-- Navigation -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 12;
+    const progressBar = document.getElementById("progressBar");
+
+    function showSlide(n) {
+      document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
+      document.getElementById("slide" + n).classList.add("active");
+      progressBar.style.width = ((n / totalSlides) * 100) + "%";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" && currentSlide < totalSlides) {
+        currentSlide++;
+        showSlide(currentSlide);
+      } else if (e.key === "ArrowLeft" && currentSlide > 1) {
+        currentSlide--;
+        showSlide(currentSlide);
+      }
+    });
+
+    showSlide(currentSlide);
+  </script>
 </body>
 </html>
