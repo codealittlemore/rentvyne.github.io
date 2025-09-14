@@ -1,131 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rent Vyne Pitch Deck</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rent Vyne – Coming Soon</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+
   <style>
+    /* =============================
+       Rent Vyne Brand Colors
+    ============================== */
+    :root {
+      --primary-green: #2BAF6C;
+      --primary-green-dark: #1F8A57;
+      --secondary-green: #8CE4B2;
+      --slate-gray: #2B2E3A;
+      --light-gray: #F5F7FA;
+      --soft-white: #FFFFFF;
+      --cool-gray: #E1E5EB;
+      --cta-blue: #3366FF;
+      --cta-blue-light: #5C85FF;
+      --warning-amber: #FFB020;
+      --error-red: #E54848;
+    }
+
+    /* =============================
+       Global Reset
+    ============================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-    section {
-      padding: 60px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h1, h2 {
-      color: #222;
-    }
-    footer {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--light-gray);
+      color: var(--slate-gray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      color: #666;
-      border-top: 1px solid #ddd;
     }
-    .highlight {
-      color: #0066cc;
-      font-weight: bold;
+
+    /* =============================
+       Coming Soon Container
+    ============================== */
+    .container {
+      background: var(--soft-white);
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Logo */
+    .logo {
+      max-width: 160px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: var(--slate-gray);
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
+      color: var(--soft-white);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, var(--cta-blue), var(--cta-blue-light));
+      transform: translateY(-2px);
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--cool-gray);
     }
   </style>
 </head>
 <body>
-
-  <!-- Title -->
-  <section>
+  <div class="container">
+    <img src="logo.png" alt="Rent Vyne Logo" class="logo" />
     <h1>Rent Vyne</h1>
-    <h2 class="highlight">Smart Rent. Simple Living.</h2>
-    <p>Simplifying Rent & Shortlet Management for Nigerian Landlords and Owners.</p>
-  </section>
-
-  <!-- Problem -->
-  <section>
-    <h2>Problem</h2>
-    <ul>
-      <li>Manual tenant onboarding & rent tracking is slow and error-prone</li>
-      <li>Shortlet management is fragmented</li>
-      <li>Payment delays and lack of transparency</li>
-    </ul>
-  </section>
-
-  <!-- Solution -->
-  <section>
-    <h2>Solution</h2>
-    <p><strong>Rent Vyne</strong> provides an all-in-one property and payment management platform:</p>
-    <ul>
-      <li>Digital Tenant Onboarding</li>
-      <li>Automated Rent & Fee Tracking</li>
-      <li>Shortlet Booking Management</li>
-      <li>Integrated Local Payment Gateways (Moniepoint, Paystack)</li>
-    </ul>
-  </section>
-
-  <!-- Market -->
-  <section>
-    <h2>Market Opportunity</h2>
-    <p>The Nigerian property management market is valued at <strong>₦2.5 trillion annually</strong> with less than 15% digital adoption. Target segments:</p>
-    <ul>
-      <li>2.5M+ Individual Landlords</li>
-      <li>500+ Property Management Companies</li>
-      <li>10,000+ Shortlet Operators</li>
-    </ul>
-  </section>
-
-  <!-- Business Model -->
-  <section>
-    <h2>Business Model</h2>
-    <ul>
-      <li>Subscription plans starting at ₦5,000/month</li>
-      <li>0.5% transaction fee on guest payments</li>
-    </ul>
-  </section>
-
-  <!-- Competitive Advantage -->
-  <section>
-    <h2>Competitive Advantage</h2>
-    <ul>
-      <li>Built for Nigerian landlords with Naira + CBN-compliant payments</li>
-      <li>Combines tenant, shortlet, and payments into one platform</li>
-      <li>Automation reduces errors and saves landlords time</li>
-    </ul>
-  </section>
-
-  <!-- Traction -->
-  <section>
-    <h2>Traction</h2>
-    <ul>
-      <li>MVP in progress</li>
-      <li>Strong landlord interest (test group onboarding)</li>
-      <li>Partnership conversations with agents and shortlet owners</li>
-    </ul>
-  </section>
-
-  <!-- Ask -->
-  <section>
-    <h2>Our Ask</h2>
-    <p>We are seeking <strong>₦30M–₦50M seed funding</strong> to:</p>
-    <ul>
-      <li>Complete product development</li>
-      <li>Onboard first 100 landlords and shortlet operators</li>
-      <li>Scale integrations and marketing</li>
-    </ul>
-  </section>
-
-  <!-- Closing -->
-  <section>
-    <h2>Closing</h2>
-    <p><em>Rent Vyne — Smart Rent. Simple Living.</em></p>
-    <p>Contact: <strong>[Insert Your Email Here]</strong></p>
-    <p><strong>Note:</strong> All product designs, workflows, and intellectual property shown are proprietary to Rent Vyne.</p>
-  </section>
-
-  <!-- Footer with legal note -->
-  <footer>
-    © Rent Vyne. Confidential – for investor presentation only. Do not copy, share, or redistribute without permission.
-  </footer>
-
+    <p>We’re building a better way for landlords and shortlet owners to manage tenants and guest bookings.</p>
+    <a href="mailto:info@rentvyne.com" class="btn">Contact Us</a>
+    <footer>
+      &copy; 2025 Rent Vyne. All rights reserved.
+    </footer>
+  </div>
 </body>
 </html>
