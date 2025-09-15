@@ -1,433 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rent Vyne - Pitch Deck</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rent Vyne – Coming Soon</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    
+    /* =============================
+       Rent Vyne Brand Colors
+    ============================== */
+    :root {
+      --primary-green: #2BAF6C;
+      --primary-green-dark: #1F8A57;
+      --secondary-green: #8CE4B2;
+      --slate-gray: #2B2E3A;
+      --light-gray: #F5F7FA;
+      --soft-white: #FFFFFF;
+      --cool-gray: #E1E5EB;
+      --cta-blue: #3366FF;
+      --cta-blue-light: #5C85FF;
+      --warning-amber: #FFB020;
+      --error-red: #E54848;
+    }
+
+    /* =============================
+       Global Reset
+    ============================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: #F5F7FA;
-    }
-    
-    .slide {
-      min-height: 100vh;
-      display: none;
-      background: linear-gradient(135deg, #009688 0%, #1A237E 100%);
-    }
-    
-    .slide.active {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--light-gray);
+      color: var(--slate-gray);
       display: flex;
-    }
-    
-    .slide-content {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-    
-    .progress-bar {
-      height: 4px;
-      background: linear-gradient(90deg, #009688, #1A237E);
-      transition: width 0.3s ease;
-    }
-    
-    .nav-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-dot.active {
-      background: white;
-      transform: scale(1.2);
-    }
-    
-    .metric-card {
-      background: linear-gradient(135deg, #03A9F4 0%, #009688 100%);
-      border-radius: 16px;
-      color: white;
-      padding: 24px;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
     }
-    
-    .feature-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #009688, #1A237E);
+
+    /* =============================
+       Coming Soon Container
+    ============================== */
+    .container {
+      background: var(--soft-white);
+      padding: 3rem;
       border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 1s ease-in-out;
     }
-    
-    .animate-fade-in {
-      animation: fadeIn 0.6s ease-in-out;
+
+    /* Logo */
+    .logo {
+      max-width: 160px;
+      margin-bottom: 1.5rem;
     }
-    
+
+    /* Heading */
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: var(--slate-gray);
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
+      color: var(--soft-white);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, var(--cta-blue), var(--cta-blue-light));
+      transform: translateY(-2px);
+    }
+
+    /* Animation */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Footer */
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--cool-gray);
+    }
   </style>
 </head>
 <body>
-  <!-- Progress Bar -->
-  <div class="fixed top-0 left-0 w-full z-50">
-    <div class="progress-bar" id="progressBar" style="width: 9.09%"></div>
+  <div class="container">
+    <img src="ass" alt="Rent Vyne Logo" class="logo" />
+    <h1>Rent Vyne</h1>
+    <p>We’re building a better way for landlords and shortlet owners to manage tenants and guest bookings.</p>
+    <a href="mailto:info@rentvyne.com" class="btn">Contact Us</a>
+    <footer>
+      &copy; 2025 Rent Vyne. All rights reserved.
+    </footer>
   </div>
-
-  <!-- Navigation Dots -->
-  <div class="fixed right-6 top-1/2 transform -translate-y-1/2 z-40 space-y-3">
-    <div class="nav-dot active" onclick="goToSlide(0)"></div>
-    <div class="nav-dot" onclick="goToSlide(1)"></div>
-    <div class="nav-dot" onclick="goToSlide(2)"></div>
-    <div class="nav-dot" onclick="goToSlide(3)"></div>
-    <div class="nav-dot" onclick="goToSlide(4)"></div>
-    <div class="nav-dot" onclick="goToSlide(5)"></div>
-    <div class="nav-dot" onclick="goToSlide(6)"></div>
-    <div class="nav-dot" onclick="goToSlide(7)"></div>
-    <div class="nav-dot" onclick="goToSlide(8)"></div>
-    <div class="nav-dot" onclick="goToSlide(9)"></div>
-    <div class="nav-dot" onclick="goToSlide(10)"></div>
-  </div>
-
- <!-- Slide 1: Title -->
-    <div class="slide active flex items-center justify-center p-8">
-        <div class="slide-content max-w-4xl w-full p-16 text-center animate-fade-in">
-            <div class="mb-8">
-               
-                  <img src="assets\61D1651C-E427-46AE-813A-3FEAEBE1B6C0.jpeg" alt="Rent Vyne Logo" class="w-24 mx-auto mb-4 rounded-2xl shadow-md">
-               
-                <h1 class="text-6xl font-bold text-gray-900 mb-4">Rent Vyne</h1>
-                <p class="text-2xl text-gray-600 mb-8">Smart Rent. Simple Living.</p>
-                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Simplifying Rent & Shortlet Management for Nigerian Landlords and Owners</p>
-            </div>
-            <div class="text-sm text-gray-400 mt-12">
-                <p>© Rent Vyne. Confidential – for investor presentation only.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 2: Problem -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">The Problem</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-red-50 p-8 rounded-2xl border-l-4 border-red-500">
-                    <div class="text-4xl mb-4">⏱️</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Slow & Error-Prone</h3>
-                    <p class="text-gray-600">Manual tenant onboarding and rent tracking leads to delays and mistakes</p>
-                </div>
-                <div class="bg-orange-50 p-8 rounded-2xl border-l-4 border-orange-500">
-                    <div class="text-4xl mb-4">🔀</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Fragmented Management</h3>
-                    <p class="text-gray-600">Shortlet operators juggle multiple platforms and manual processes</p>
-                </div>
-                <div class="bg-yellow-50 p-8 rounded-2xl border-l-4 border-yellow-500">
-                    <div class="text-4xl mb-4">💸</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Payment Issues</h3>
-                    <p class="text-gray-600">Delays and lack of transparency in rent collection and tracking</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 3: Solution -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Our Solution</h2>
-            <div class="text-center mb-12">
-                <p class="text-xl text-gray-600">All-in-one property and payment management platform</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="flex items-start space-x-4">
-                    <div class="feature-icon">📋</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Digital Tenant Onboarding</h3>
-                        <p class="text-gray-600">Streamlined digital process for tenant registration and verification</p>
-                    </div>
-                </div>
-                <div class="flex items-start space-x-4">
-                    <div class="feature-icon">🤖</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Automated Rent Tracking</h3>
-                        <p class="text-gray-600">Automatic rent and fee tracking with smart notifications</p>
-                    </div>
-                </div>
-                <div class="flex items-start space-x-4">
-                    <div class="feature-icon">🏠</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Shortlet Management</h3>
-                        <p class="text-gray-600">Complete booking and guest management system</p>
-                    </div>
-                </div>
-                <div class="flex items-start space-x-4">
-                    <div class="feature-icon">💳</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Local Payment Integration</h3>
-                        <p class="text-gray-600">Seamless integration with Moniepoint, Paystack & more</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 4: Market Opportunity -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Market Opportunity</h2>
-            <div class="text-center mb-12">
-                <div class="metric-card inline-block mb-8">
-                    <h3 class="text-3xl font-bold mb-2">₦2.5 Trillion</h3>
-                    <p class="text-lg">Annual Nigerian Property Market</p>
-                    <p class="text-sm mt-2 opacity-90">Less than 15% digital adoption</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-6 bg-blue-50 rounded-2xl">
-                    <div class="text-3xl font-bold text-blue-600 mb-2">2.5M+</div>
-                    <p class="text-gray-700 font-medium">Individual Landlords</p>
-                </div>
-                <div class="text-center p-6 bg-green-50 rounded-2xl">
-                    <div class="text-3xl font-bold text-green-600 mb-2">500+</div>
-                    <p class="text-gray-700 font-medium">Property Management Companies</p>
-                </div>
-                <div class="text-center p-6 bg-purple-50 rounded-2xl">
-                    <div class="text-3xl font-bold text-purple-600 mb-2">10,000+</div>
-                    <p class="text-gray-700 font-medium">Shortlet Operators</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 5: Business Model -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Business Model</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-2xl text-white text-center">
-                    <div class="text-4xl mb-4">📅</div>
-                    <h3 class="text-2xl font-bold mb-4">Subscription Revenue</h3>
-                    <div class="text-3xl font-bold mb-2">₦5,000+</div>
-                    <p class="text-lg opacity-90">Monthly subscription plans</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-500 to-teal-600 p-8 rounded-2xl text-white text-center">
-                    <div class="text-4xl mb-4">💰</div>
-                    <h3 class="text-2xl font-bold mb-4">Transaction Fees</h3>
-                    <div class="text-3xl font-bold mb-2">0.5%</div>
-                    <p class="text-lg opacity-90">On guest payments</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 6: Competitive Advantage -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Competitive Advantage</h2>
-            <div class="space-y-8">
-                <div class="flex items-center space-x-6 p-6 bg-green-50 rounded-2xl">
-                    <div class="text-4xl">🇳🇬</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Built for Nigeria</h3>
-                        <p class="text-gray-600">Naira-native platform with CBN-compliant payment integrations</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-6 p-6 bg-blue-50 rounded-2xl">
-                    <div class="text-4xl">🔗</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">All-in-One Platform</h3>
-                        <p class="text-gray-600">Combines tenant management, shortlets, and payments in one solution</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-6 p-6 bg-purple-50 rounded-2xl">
-                    <div class="text-4xl">⚡</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Automation First</h3>
-                        <p class="text-gray-600">Reduces manual errors and saves landlords valuable time</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 7: Traction -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Traction</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-8 bg-yellow-50 rounded-2xl">
-                    <div class="text-4xl mb-4">🚀</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">MVP Development</h3>
-                    <p class="text-gray-600">Product development in progress with core features ready</p>
-                </div>
-                <div class="text-center p-8 bg-green-50 rounded-2xl">
-                    <div class="text-4xl mb-4">👥</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Strong Interest</h3>
-                    <p class="text-gray-600">Test group of landlords actively onboarding and providing feedback</p>
-                </div>
-                <div class="text-center p-8 bg-blue-50 rounded-2xl">
-                    <div class="text-4xl mb-4">🤝</div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Partnership Pipeline</h3>
-                    <p class="text-gray-600">Active conversations with agents and shortlet operators</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 8: Funding Ask -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Our Ask</h2>
-            <div class="text-center mb-12">
-                <div class="metric-card inline-block mb-8">
-                    <h3 class="text-4xl font-bold mb-2">₦30M - ₦50M</h3>
-                    <p class="text-xl">Seed Funding</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-6 bg-blue-50 rounded-2xl">
-                    <div class="text-3xl mb-4">🔧</div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Complete Development</h3>
-                    <p class="text-gray-600">Finalize product features and platform</p>
-                </div>
-                <div class="text-center p-6 bg-green-50 rounded-2xl">
-                    <div class="text-3xl mb-4">📈</div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Scale Customer Base</h3>
-                    <p class="text-gray-600">Onboard first 100 landlords and operators</p>
-                </div>
-                <div class="text-center p-6 bg-purple-50 rounded-2xl">
-                    <div class="text-3xl mb-4">🚀</div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Growth & Marketing</h3>
-                    <p class="text-gray-600">Scale integrations and marketing efforts</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 9: Team (Optional) -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-5xl w-full p-16">
-            <h2 class="text-5xl font-bold text-gray-900 mb-12 text-center">Why Now?</h2>
-            <div class="space-y-8">
-                <div class="flex items-center space-x-6 p-6 bg-blue-50 rounded-2xl">
-                    <div class="text-4xl">📱</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Digital Transformation</h3>
-                        <p class="text-gray-600">Nigerian property market is rapidly adopting digital solutions</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-6 p-6 bg-green-50 rounded-2xl">
-                    <div class="text-4xl">🏙️</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Urban Growth</h3>
-                        <p class="text-gray-600">Increasing urbanization driving demand for efficient property management</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-6 p-6 bg-purple-50 rounded-2xl">
-                    <div class="text-4xl">✈️</div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Shortlet Boom</h3>
-                        <p class="text-gray-600">Growing tourism and business travel increasing shortlet demand</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 10: Thank You -->
-    <div class="slide flex items-center justify-center p-8">
-        <div class="slide-content max-w-4xl w-full p-16 text-center">
-            <div class="mb-8">
-                <div class="mx-auto mb-6 flex items-center justify-center">
-                   <img src="assets\61D1651C-E427-46AE-813A-3FEAEBE1B6C0.jpeg" alt="Rent Vyne Logo" class="w-24 mx-auto mb-4 rounded-2xl shadow-md">
-                </div>
-                <h1 class="text-5xl font-bold text-gray-900 mb-4">Thank You</h1>
-                <p class="text-2xl text-gray-600 mb-8">Smart Rent. Simple Living.</p>
-            </div>
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">Ready to Transform Nigerian Property Management?</h3>
-                <p class="text-gray-600 mb-6">Contact us to learn more about this investment opportunity</p>
-                <div class="text-lg text-blue-600 font-medium">adebayokokumo@gmail.com</div>
-            </div>
-            <div class="text-sm text-gray-400 mt-8">
-                <p>© Rent Vyne. Confidential – for investor presentation only.</p>
-                <p>Do not copy, share, or redistribute without permission.</p>
-            </div>
-        </div>
-    </div>
-
-
-  <!-- Navigation Controls -->
-  <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 flex space-x-4">
-    <button onclick="previousSlide()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-3 rounded-full transition-all duration-300 backdrop-blur-sm">
-      ← Previous
-    </button>
-    <button onclick="nextSlide()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-3 rounded-full transition-all duration-300 backdrop-blur-sm">
-      Next →
-    </button>
-  </div>
-
-  <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
-    const progressBar = document.getElementById('progressBar');
-    const navDots = document.querySelectorAll('.nav-dot');
-
-    function updateSlide() {
-      slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === currentSlide);
-      });
-      
-      navDots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-      });
-      
-      const progress = ((currentSlide + 1) / totalSlides) * 100;
-      progressBar.style.width = progress + '%';
-      
-      const activeSlide = slides[currentSlide];
-      const content = activeSlide.querySelector('.slide-content');
-      content.classList.remove('animate-fade-in');
-      setTimeout(() => {
-        content.classList.add('animate-fade-in');
-      }, 50);
-    }
-
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % totalSlides;
-      updateSlide();
-    }
-
-    function previousSlide() {
-      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-      updateSlide();
-    }
-
-    function goToSlide(index) {
-      currentSlide = index;
-      updateSlide();
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        previousSlide();
-      }
-    });
-  </script>
 </body>
 </html>
