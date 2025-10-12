@@ -3,121 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rent Vyne – Coming Soon</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-
+  <link rel="icon" type="image/png" href="favicon.png" />  
+  <title>Rent Vyne | Coming Soon</title>
   <style>
-    /* =============================
-       Rent Vyne Brand Colors
-    ============================== */
-    :root {
-      --primary-green: #2BAF6C;
-      --primary-green-dark: #1F8A57;
-      --secondary-green: #8CE4B2;
-      --slate-gray: #2B2E3A;
-      --light-gray: #F5F7FA;
-      --soft-white: #FFFFFF;
-      --cool-gray: #E1E5EB;
-      --cta-blue: #3366FF;
-      --cta-blue-light: #5C85FF;
-      --warning-amber: #FFB020;
-      --error-red: #E54848;
-    }
-
-    /* =============================
-       Global Reset
-    ============================== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--light-gray);
-      color: var(--slate-gray);
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 50%, #f8fafc 100%);
+      background-attachment: fixed;
+      color: #1e293b;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
-      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* =============================
-       Coming Soon Container
-    ============================== */
+    /* Decorative gradient rings */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.25;
+      z-index: 0;
+      animation: float 12s ease-in-out infinite;
+    }
+
+    .ring.one {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle at center, #a7f3d0, transparent 70%);
+      top: -80px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .ring.two {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle at center, #99f6e4, transparent 70%);
+      bottom: -150px;
+      right: -120px;
+      animation-delay: 3s;
+    }
+
+    .ring.three {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle at center, #6ee7b7, transparent 70%);
+      top: 40%;
+      left: 60%;
+      animation-delay: 6s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+    }
+
     .container {
-      background: var(--soft-white);
-      padding: 3rem;
+      background: #ffffffd9;
+      backdrop-filter: blur(10px);
       border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      padding: 48px 32px;
+      max-width: 420px;
       width: 90%;
-      animation: fadeIn 1s ease-in-out;
+      border: 1px solid #e5e7eb;
+      z-index: 1;
+      position: relative;
     }
 
-    /* Logo */
     .logo {
-      max-width: 160px;
-      margin-bottom: 1.5rem;
+      height: 36px;
+      margin-bottom: 16px;
     }
 
-    /* Heading */
     h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 28px;
+      color: #047857;
+      margin-bottom: 12px;
     }
 
     p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      color: var(--slate-gray);
+      font-size: 15px;
+      color: #475569;
+      margin-bottom: 28px;
+      line-height: 1.6;
     }
 
-    /* Button */
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(90deg, var(--primary-green), var(--primary-green-dark));
-      color: var(--soft-white);
-      text-decoration: none;
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input[type="email"] {
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
       border-radius: 8px;
-      font-weight: 600;
-      transition: background 0.3s ease, transform 0.2s ease;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s ease;
     }
 
-    .btn:hover {
-      background: linear-gradient(90deg, var(--cta-blue), var(--cta-blue-light));
-      transform: translateY(-2px);
+    input[type="email"]:focus {
+      border-color: #10b981;
     }
 
-    /* Animation */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    button {
+      background-color: #10b981;
+      color: white;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
     }
 
-    /* Footer */
-    footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: var(--cool-gray);
+    button:hover {
+      background-color: #059669;
+    }
+
+    .footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: #94a3b8;
     }
   </style>
 </head>
 <body>
+  <div class="ring one"></div>
+  <div class="ring two"></div>
+  <div class="ring three"></div>
+
   <div class="container">
     <img src="assets/61D1651C-E427-46AE-813A-3FEAEBE1B6C0.jpeg" alt="Rent Vyne Logo" class="logo" />
     <h1>Rent Vyne</h1>
     <p>We’re building a better way for landlords and shortlet owners to manage tenants and guest bookings.</p>
-    <a href="mailto:info@rentvyne.com" class="btn">Almost there!</a>
-    <footer>
-      &copy; 2025 Rent Vyne. All rights reserved.
-    </footer>
+    <form action="https://example.com/waitlist" method="POST">
+      <input type="email" name="email" placeholder="Enter your email address" required />
+      <button type="submit">Join Waitlist</button>
+    </form>
+    <p class="footer">© 2025 Rent Vyne. All rights reserved.</p>
   </div>
 </body>
 </html>
