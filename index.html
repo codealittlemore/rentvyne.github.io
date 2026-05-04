@@ -3,193 +3,1910 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="icon" type="image/png" href="images/Return_prime_logo.png" /> 
+<link rel="icon" href="images/rentvynefavicon.svg" type="image/svg+xml" />
 <title>Rentvyne — Modern Property Infrastructure</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        charcoal: '#0F1115',
-        stone: '#F5F3EF',
-        gold: '#C6A75E'
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Playfair Display', 'serif']
-      }
-    }
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0C0E;
+    --bg-rgb: 10,12,14;
+    --bg2: #111418;
+    --bg3: #161B20;
+    --teal: #3DB88B;
+    --teal-dark: #2A9A72;
+    --teal-dim: rgba(61,184,139,0.12);
+    --teal-glow: rgba(61,184,139,0.25);
+    --cream: #F0EDE8;
+    --muted: rgba(240,237,232,0.45);
+    --border: rgba(240,237,232,0.08);
+    --gold: #C6A75E;
+    --map-text: #F0EDE8;
+    --card-inner: rgba(255,255,255,0.03);
+    --input-bg: rgba(255,255,255,0.05);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
   }
-}
-</script>
-</head>
 
-<body class="bg-stone text-charcoal antialiased">
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--teal-dark); border-radius: 2px; }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 48px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s, border-bottom 0.4s, backdrop-filter 0.4s;
+  }
+  .nav.scrolled {
+    background: rgba(var(--bg-rgb), 0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo img { height: 36px; width: 36px; }
+  .nav-logo span {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    background: var(--teal);
+    color: #0A0C0E !important;
+    padding: 10px 24px;
+    border-radius: 100px;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px var(--teal-glow);
+    color: #0A0C0E !important;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('images/bckimage1.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.07;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, var(--bg) 100%);
+  }
+  .hero-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(61,184,139,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(61,184,139,0.3);
+    background: rgba(61,184,139,0.07);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 32px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    max-width: 880px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .hero h1 .accent { color: var(--teal); }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 80px;
+  }
+  .btn-primary {
+    background: var(--teal);
+    color: #0A0C0E;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px var(--teal-glow);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--border);
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--muted);
+    background: rgba(128,128,128,0.06);
+  }
+  .hero-image-wrap {
+    width: 100%;
+    max-width: 1100px;
+    position: relative;
+  }
+  .hero-image-wrap::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px; right: -40px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(61,184,139,0.1) 0%, transparent 70%);
+  }
+  .hero-image-wrap img {
+    width: 100%;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 20px;
+    background: var(--card-inner);
+  }
+  .stat-item {
+    flex: 1;
+    padding: 24px 32px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--teal);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ─── SECTION COMMONS ─── */
+  section { position: relative; }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--teal);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .section-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 560px;
+  }
+
+  /* ─── SERVICES ─── */
+  .services {
+    padding: 120px 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .services-header {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .services-header .section-desc {
+    margin: 0 auto;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--bg2);
+    padding: 40px 32px;
+    transition: background 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--teal);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .service-card:hover { background: var(--bg3); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--teal-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .service-icon svg { width: 22px; height: 22px; }
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .service-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-list li {
+    font-size: 0.825rem;
+    color: var(--muted);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  /* ─── PRODUCT ─── */
+  .product {
+    padding: 140px 0;
+  }
+  .product-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .product-image {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .product-image img {
+    width: 100%;
+    display: block;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+  }
+  .product-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(61,184,139,0.08) 0%, transparent 60%);
+    border-radius: 24px;
+  }
+
+  /* ─── FEATURES ─── */
+  .features {
+    padding: 120px 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .features-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .features-sticky {
+    position: sticky;
+    top: 100px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .feature-card {
+    background: var(--bg2);
+    padding: 36px 32px;
+    transition: background 0.3s;
+  }
+  .feature-card:hover { background: var(--bg3); }
+  .feature-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--teal);
+    opacity: 0.25;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .feature-card h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .feature-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .how {
+    padding: 140px 0;
+  }
+  .how-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .how-header .section-desc {
+    margin: 0 auto;
+  }
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    position: relative;
+  }
+  .how-steps::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: calc(33.33% - 24px);
+    right: calc(33.33% - 24px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--teal), transparent 50%, var(--teal));
+    opacity: 0.3;
+  }
+  .how-step {
+    text-align: center;
+  }
+  .how-step-num {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1px solid rgba(61,184,139,0.3);
+    background: var(--teal-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin: 0 auto 28px;
+  }
+  .how-step h4 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .how-step p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* ─── CITIES/MARKET ─── */
+  .market {
+    padding: 120px 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .market-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .market-image {
+    position: relative;
+  }
+  .market-image img {
+    width: 100%;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    display: block;
+    filter: saturate(0.7);
+  }
+  .market-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 50%, rgba(61,184,139,0.08));
+    border-radius: 24px;
+  }
+
+  /* ─── WAITLIST ─── */
+  .waitlist {
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .waitlist-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(61,184,139,0.07) 0%, transparent 70%);
+  }
+  .waitlist-inner {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .waitlist h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .waitlist-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+    margin-bottom: 48px;
+    line-height: 1.75;
+  }
+  .waitlist-form {
+    display: flex;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .waitlist-input {
+    flex: 1;
+    height: 52px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0 24px;
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .waitlist-input::placeholder { color: var(--muted); }
+  .waitlist-input:focus { border-color: rgba(61,184,139,0.4); }
+  .waitlist-note {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 0 40px;
+    background: var(--bg);
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-top: 16px;
+    max-width: 280px;
+  }
+  .footer-col h5 {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a {
+    font-size: 0.875rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--cream); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-bottom span {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ─── MAP TEXT (adapts to light/dark) ─── */
+  #nigeria-map text, #lagos-map text {
+    fill: var(--map-text) !important;
+  }
+  /* ─── SVG TOOLTIP BACKGROUNDS ─── */
+  #tt-bg, #ltt-bg {
+    fill: var(--bg) !important;
+  }
+  /* ─── SVG TOOLTIP TEXT ─── */
+  #tt-name, #ltt-name {
+    fill: var(--cream) !important;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(180deg, transparent, var(--teal), transparent);
+    margin: 0 auto;
+    opacity: 0.4;
+  }
+
+  /* Mobile nav toggle */
+  .nav-toggle { display: none; }
+
+  @media (max-width: 900px) {
+    .nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      width: 24px; height: 2px;
+      background: var(--cream);
+      display: block;
+      transition: 0.3s;
+    }
+    .hero { padding: 120px 24px 60px; }
+    .container { padding: 0 24px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .product-inner { grid-template-columns: 1fr; gap: 40px; }
+    .features-inner { grid-template-columns: 1fr; }
+    .features-sticky { position: static; }
+    .how-steps { grid-template-columns: 1fr; gap: 40px; }
+    .how-steps::before { display: none; }
+    .market-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); display: grid; }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+    .waitlist-form { flex-direction: column; }
+  }
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
 
 <!-- NAV -->
-<header class="max-w-7xl mx-auto px-6 lg:px-12 py-8 flex justify-between items-center">
-  <div class="flex items-center gap-3">
-    <img src="./images/Return_prime_logo.png" class="h-10 w-10" />
-    <span class="text-lg tracking-wide font-medium">Rentvyne</span>
-  </div>
-
-  <nav class="hidden md:flex items-center gap-10 text-sm tracking-wide">
-    <a href="#product" class="hover:opacity-60 transition">Product</a>
-    <a href="#vision" class="hover:opacity-60 transition">Vision</a>
-    <a href="#contact" class="hover:opacity-60 transition">Contact</a>
-    <a href="#waitlist" class="px-6 py-2 border border-charcoal rounded-full hover:bg-charcoal hover:text-white transition">
-      Request Access
-    </a>
+<header class="nav" id="nav">
+  <a href="#" class="nav-logo">
+    <img src="images/Return_prime_logo.png" alt="Rentvyne" />
+    <span>Rentvyne</span>
+  </a>
+  <nav>
+    <ul class="nav-links" style="color: var(--muted);">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#product">Platform</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#rentmap">Rent Map</a></li>
+      <li><a href="#waitlist" class="nav-cta">Get Early Access</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'">
+      <span></span><span></span><span></span>
+    </div>
   </nav>
 </header>
 
 <!-- HERO -->
-<section class="max-w-6xl mx-auto px-6 lg:px-12 pt-24 pb-32 text-center">
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
 
-  <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-tight tracking-tight">
-    Elevated property<br />
-    management infrastructure.
+  <div class="hero-badge reveal">
+    <span class="hero-badge-dot"></span>
+    PropTech Infrastructure · Lagos, Nigeria
+  </div>
+
+  <h1 class="reveal reveal-delay-1">
+    Property management,<br />
+    <span class="accent">elevated.</span>
   </h1>
 
-  <p class="mt-8 text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+  <p class="hero-sub reveal reveal-delay-2">
     Rentvyne unifies lease intelligence, rent tracking, and tenant lifecycle
-    management into a refined digital command center for modern portfolios.
+    management into one refined command center — built for modern portfolios.
   </p>
 
-  <div class="mt-12 flex justify-center gap-6">
-    <a href="#waitlist" class="px-10 py-4 bg-charcoal text-white text-sm tracking-wide rounded-full hover:opacity-90 transition">
+  <div class="hero-actions reveal reveal-delay-3">
+    <a href="#waitlist" class="btn-primary">
       Join the Pilot
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
-    <a href="#product" class="px-10 py-4 border border-charcoal text-sm tracking-wide rounded-full hover:bg-charcoal hover:text-white transition">
-      Explore Platform
-    </a>
+    <a href="#services" class="btn-secondary">Explore Platform</a>
   </div>
 
-  <div class="mt-20">
-    <img 
-      src="./images/bckimage1.jpg"
-      class="rounded-3xl shadow-2xl mx-auto"
-      loading="lazy"
-    />
+  <div class="hero-image-wrap reveal reveal-delay-4">
+    <img src="images/backgroundimage2.jpg" alt="Rentvyne Property Infrastructure" />
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-num">4+</span>
+        <span class="stat-label">Service Verticals</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Unified Platform</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">Q3 '26</span>
+        <span class="stat-label">Pilot Launch</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">NG</span>
+        <span class="stat-label">Starting in Nigeria</span>
+      </div>
+    </div>
   </div>
-
 </section>
 
-<!-- PRODUCT -->
-<section id="product" class="bg-white py-32">
-  <div class="max-w-6xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-20 items-center">
-
-    <div>
-      <h2 class="font-display text-4xl leading-tight">
-        Clarity across every property.
-      </h2>
-      <div class="h-1 w-16 bg-gold mt-6"></div>
-
-      <p class="mt-8 text-neutral-600 leading-relaxed text-lg">
-        Unify tenant activity, rent flow, and operational oversight in one streamlined system.
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <div class="section-tag">Who we serve</div>
+      <h2 class="section-title">Built for every player<br />in the property market.</h2>
+      <p class="section-desc">
+        One platform. Four core user groups. Rentvyne connects the entire property ecosystem
+        in a single, seamless experience.
       </p>
     </div>
 
-    <div>
-      <img 
-        src="./images/teamworkinguse.jpeg"
-        class="rounded-3xl shadow-xl"
-        loading="lazy"
-      />
-    </div>
+    <div class="services-grid reveal">
 
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3DB88B" stroke-width="1.6">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <h3>Landlords</h3>
+        <p>Manage your portfolio with clarity. Track rent, leases, and tenant activity from a single dashboard.</p>
+        <ul class="service-list">
+          <li>Real-time rent collection</li>
+          <li>Lease management & renewals</li>
+          <li>Portfolio analytics dashboard</li>
+          <li>Multi-property oversight</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3DB88B" stroke-width="1.6">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <h3>Tenants</h3>
+        <p>A stress-free rental experience. Pay rent, track requests, and manage your tenancy all in one place.</p>
+        <ul class="service-list">
+          <li>Seamless rent payments</li>
+          <li>Maintenance request tracking</li>
+          <li>Digital lease access</li>
+          <li>Move-in / move-out support</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3DB88B" stroke-width="1.6">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/>
+            <line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <h3>Agents</h3>
+        <p>Scale your agency operations. Onboard clients, manage listings, and streamline commissions effortlessly.</p>
+        <ul class="service-list">
+          <li>Client & listing management</li>
+          <li>Commission tracking</li>
+          <li>Automated onboarding</li>
+          <li>Deal pipeline visibility</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3DB88B" stroke-width="1.6">
+            <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+            <path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/>
+            <path d="M12 12v4M10 14h4"/>
+          </svg>
+        </div>
+        <h3>Shortlets</h3>
+        <p>Purpose-built tools for short-stay operators. Manage bookings, pricing, and guest communication seamlessly.</p>
+        <ul class="service-list">
+          <li>Dynamic booking calendar</li>
+          <li>Guest lifecycle management</li>
+          <li>Revenue & occupancy tracking</li>
+          <li>Automated guest communication</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product" id="product">
+  <div class="container">
+    <div class="product-inner">
+      <div class="product-image reveal">
+        <img src="images/bckimage1.jpg" alt="Rentvyne Platform" />
+        <div class="product-image-overlay"></div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="section-tag">The Platform</div>
+        <h2 class="section-title">Clarity across<br />every property.</h2>
+        <p class="section-desc">
+          Unify tenant activity, rent flow, and operational oversight in one streamlined system.
+          Rentvyne replaces scattered spreadsheets and fragmented tools with a single source of truth
+          for your entire portfolio.
+        </p>
+        <div style="margin-top:40px; display:flex; flex-direction:column; gap:20px;">
+          <div style="display:flex; align-items:flex-start; gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;"></div>
+            <div>
+              <strong style="font-family:var(--font-display);font-size:0.95rem;">Unified Ledger</strong>
+              <p style="font-size:0.875rem;color:var(--muted);margin-top:4px;font-weight:300;">Transparent, real-time rent and recurring charge visibility across all your units.</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;"></div>
+            <div>
+              <strong style="font-family:var(--font-display);font-size:0.95rem;">Tenant Lifecycle</strong>
+              <p style="font-size:0.875rem;color:var(--muted);margin-top:4px;font-weight:300;">Structured onboarding, lease renewals, and portfolio movement — fully managed.</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;"></div>
+            <div>
+              <strong style="font-family:var(--font-display);font-size:0.95rem;">Portfolio Intelligence</strong>
+              <p style="font-size:0.875rem;color:var(--muted);margin-top:4px;font-weight:300;">Data-backed occupancy and revenue oversight so you make better decisions, faster.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section id="vision" class="py-32">
-  <div class="max-w-6xl mx-auto px-6 lg:px-12">
-
-    <div class="text-center max-w-3xl mx-auto">
-      <h2 class="font-display text-4xl">
-        Designed for discerning landlords.
-      </h2>
-      <div class="h-1 w-16 bg-gold mx-auto mt-6"></div>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-20 mt-20 text-center">
-
-      <div>
-        <h3 class="text-lg tracking-wide font-medium">Unified Ledger</h3>
-        <p class="mt-4 text-neutral-600 leading-relaxed">
-          Transparent, real-time rent and recurring charge visibility.
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-inner">
+      <div class="features-sticky reveal">
+        <div class="section-tag">Features</div>
+        <h2 class="section-title">Designed for<br />discerning landlords.</h2>
+        <p class="section-desc" style="margin-bottom:32px;">
+          Every feature is purpose-built around the realities of property management in Africa's
+          fastest-growing cities.
         </p>
+        <a href="#waitlist" class="btn-primary" style="display:inline-flex;">
+          Join the Pilot
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
 
-      <div>
-        <h3 class="text-lg tracking-wide font-medium">Tenant Lifecycle</h3>
-        <p class="mt-4 text-neutral-600 leading-relaxed">
-          Structured onboarding, renewals, and portfolio movement.
-        </p>
+      <div class="features-grid reveal reveal-delay-1">
+        <div class="feature-card">
+          <div class="feature-num">01</div>
+          <h4>Smart Rent Tracking</h4>
+          <p>Automated reminders, payment records, and overdue management — so nothing slips through the cracks.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">02</div>
+          <h4>Digital Lease Management</h4>
+          <p>Create, send, sign, and archive leases digitally. Renewal alerts keep your tenancies current.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">03</div>
+          <h4>Maintenance Coordination</h4>
+          <p>Tenants submit requests in-app. You assign, track and resolve — with full audit history.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">04</div>
+          <h4>Financial Reporting</h4>
+          <p>Monthly statements, income summaries, and occupancy rates — presented simply and clearly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">05</div>
+          <h4>Tenant Screening</h4>
+          <p>Background checks, reference collection, and scoring — right inside your workflow.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">06</div>
+          <h4>Shortlet Booking Engine</h4>
+          <p>Calendar management, dynamic pricing, and guest messaging for short-stay properties.</p>
+        </div>
       </div>
-
-      <div>
-        <h3 class="text-lg tracking-wide font-medium">Portfolio Intelligence</h3>
-        <p class="mt-4 text-neutral-600 leading-relaxed">
-          Data-backed occupancy and revenue oversight.
-        </p>
-      </div>
-
     </div>
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header reveal">
+      <div class="section-tag">How it works</div>
+      <h2 class="section-title">Up and running in minutes.</h2>
+      <p class="section-desc">No complex onboarding. No spreadsheet migration headaches. Just connect and go.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-step-num">01</div>
+        <h4>Create your account</h4>
+        <p>Sign up and set up your profile in under 5 minutes. Tell us about your portfolio — size, type, location.</p>
+      </div>
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">02</div>
+        <h4>Add your properties</h4>
+        <p>List your units, upload lease documents, and invite tenants or agents to connect on the platform.</p>
+      </div>
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">03</div>
+        <h4>Manage with clarity</h4>
+        <p>Track rent, communicate with tenants, run reports and grow your portfolio — all from one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET / CITY -->
+<section class="market">
+  <div class="container">
+    <div class="market-inner">
+      <div class="reveal">
+        <div class="section-tag">Our Market</div>
+        <h2 class="section-title">Starting in Lagos.<br />Built for Africa.</h2>
+        <p class="section-desc" style="margin-bottom:32px;">
+          Nigeria's rental market is worth billions — yet it runs largely on WhatsApp groups, paper receipts, and handshakes.
+          Rentvyne is the infrastructure layer this market has been waiting for.
+        </p>
+        <div style="display:flex;gap:32px;flex-wrap:wrap;">
+          <div>
+            <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--teal);">$0.5T+</span>
+            <p style="font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">African property market</p>
+          </div>
+          <div>
+            <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--teal);">21M+</span>
+            <p style="font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;">Households in Lagos</p>
+          </div>
+        </div>
+      </div>
+      <div class="market-image reveal reveal-delay-1">
+        <img src="images/backgroundimage2.jpg" alt="Lagos skyline" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RENT MAP -->
+<section id="rentmap" style="padding:120px 0; background:var(--bg2); border-top:1px solid var(--border); position:relative; overflow:hidden;">
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(61,184,139,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:60px;">
+      <div class="section-tag" style="justify-content:center;">Rent Intelligence</div>
+      <h2 class="section-title">Average rent by location.</h2>
+      <p class="section-desc" style="margin:0 auto;">Tap or click any state or neighbourhood to see average rent prices. Lagos drills down to neighbourhood level.</p>
+      <p style="margin-top:12px;font-size:0.8rem;color:var(--teal);opacity:0.8;letter-spacing:0.05em;">Data as of <span id="map-date"></span> · Estimated from verified listings</p>
+    </div>
+    <div class="reveal" id="map-container" style="display:grid;grid-template-columns:1fr 380px;gap:32px;align-items:start;">
+
+      <!-- MAP PANEL -->
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:24px;overflow:hidden;position:relative;">
+        <!-- Breadcrumb + tabs row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;">
+          <div id="map-breadcrumb" style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--muted);">
+            <span id="bc-nigeria" style="cursor:pointer;color:var(--teal);font-weight:600;" onclick="showNigeriaMap()">Nigeria</span>
+            <span id="bc-state" style="display:none;"> › <span id="bc-state-name" style="cursor:pointer;" onclick="showNigeriaMap()"></span></span>
+            <span id="bc-area" style="display:none;"> › <span id="bc-area-name"></span></span>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <button class="map-tab-btn active-tab" id="tab-all" onclick="setTab('all',this)" style="padding:6px 14px;border-radius:100px;border:1px solid var(--teal);background:var(--teal-dim);color:var(--teal);font-family:var(--font-body);font-size:0.75rem;cursor:pointer;font-weight:600;">All</button>
+            <button class="map-tab-btn" id="tab-apartment" onclick="setTab('apartment',this)" style="padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--font-body);font-size:0.75rem;cursor:pointer;">Apt</button>
+            <button class="map-tab-btn" id="tab-house" onclick="setTab('house',this)" style="padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--font-body);font-size:0.75rem;cursor:pointer;">House</button>
+            <button class="map-tab-btn" id="tab-shortlet" onclick="setTab('shortlet',this)" style="padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--font-body);font-size:0.75rem;cursor:pointer;">Shortlet</button>
+          </div>
+        </div>
+
+        <div style="padding:20px;position:relative;">
+          <div id="map-label" style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;text-align:center;">Nigeria — All 36 States + FCT · Click a state to explore</div>
+
+          <!-- NIGERIA SVG MAP -->
+          <div id="nigeria-map-wrap" style="display:block;">
+            <svg id="nigeria-map" viewBox="0 0 620 580" style="width:100%;" xmlns="http://www.w3.org/2000/svg">
+              <rect width="620" height="580" fill="rgba(61,184,139,0.02)" rx="10"/>
+              <!-- Gulf of Guinea water -->
+              <path d="M0 500 Q80 480 160 495 Q240 510 310 500 Q380 490 460 505 Q540 518 620 500 L620 580 L0 580Z" fill="rgba(61,184,139,0.08)"/>
+              <text x="310" y="565" text-anchor="middle" fill="rgba(61,184,139,0.35)" font-size="10" font-family="DM Sans,sans-serif" letter-spacing="3">GULF OF GUINEA</text>
+
+              <!-- ── SOUTH-WEST ── -->
+              <!-- Lagos -->
+              <g class="ng-zone" data-state="lagos" onclick="selectState('lagos')" style="cursor:pointer;">
+                <path class="ng-path" d="M58 460 L90 448 L115 452 L118 470 L105 488 L78 490 L58 478Z" fill="rgba(61,184,139,0.45)" stroke="rgba(61,184,139,0.8)" stroke-width="1.2"/>
+                <text x="88" y="472" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="700" pointer-events="none">Lagos</text>
+              </g>
+              <!-- Ogun -->
+              <g class="ng-zone" data-state="ogun" onclick="selectState('ogun')" style="cursor:pointer;">
+                <path class="ng-path" d="M90 390 L148 378 L175 385 L178 418 L158 448 L115 452 L90 448 L82 420Z" fill="rgba(61,184,139,0.2)" stroke="rgba(61,184,139,0.5)" stroke-width="1.2"/>
+                <text x="130" y="420" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ogun</text>
+              </g>
+              <!-- Oyo -->
+              <g class="ng-zone" data-state="oyo" onclick="selectState('oyo')" style="cursor:pointer;">
+                <path class="ng-path" d="M148 320 L218 308 L248 318 L250 360 L230 390 L178 395 L148 378Z" fill="rgba(61,184,139,0.18)" stroke="rgba(61,184,139,0.45)" stroke-width="1.2"/>
+                <text x="198" y="355" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Oyo</text>
+              </g>
+              <!-- Osun -->
+              <g class="ng-zone" data-state="osun" onclick="selectState('osun')" style="cursor:pointer;">
+                <path class="ng-path" d="M218 308 L270 298 L295 310 L295 348 L268 368 L248 360Z" fill="rgba(61,184,139,0.16)" stroke="rgba(61,184,139,0.42)" stroke-width="1.2"/>
+                <text x="256" y="336" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Osun</text>
+              </g>
+              <!-- Ekiti -->
+              <g class="ng-zone" data-state="ekiti" onclick="selectState('ekiti')" style="cursor:pointer;">
+                <path class="ng-path" d="M295 298 L335 290 L355 302 L350 332 L325 345 L295 340 L295 310Z" fill="rgba(61,184,139,0.15)" stroke="rgba(61,184,139,0.4)" stroke-width="1.2"/>
+                <text x="324" y="320" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ekiti</text>
+              </g>
+              <!-- Ondo -->
+              <g class="ng-zone" data-state="ondo" onclick="selectState('ondo')" style="cursor:pointer;">
+                <path class="ng-path" d="M230 390 L268 368 L295 382 L305 420 L280 448 L245 455 L218 440 L215 408Z" fill="rgba(61,184,139,0.17)" stroke="rgba(61,184,139,0.43)" stroke-width="1.2"/>
+                <text x="258" y="415" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ondo</text>
+              </g>
+
+              <!-- ── SOUTH-SOUTH ── -->
+              <!-- Edo -->
+              <g class="ng-zone" data-state="edo" onclick="selectState('edo')" style="cursor:pointer;">
+                <path class="ng-path" d="M295 348 L350 338 L380 348 L385 388 L362 415 L328 420 L305 408 L295 382Z" fill="rgba(61,184,139,0.2)" stroke="rgba(61,184,139,0.5)" stroke-width="1.2"/>
+                <text x="340" y="385" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Edo</text>
+              </g>
+              <!-- Delta -->
+              <g class="ng-zone" data-state="delta" onclick="selectState('delta')" style="cursor:pointer;">
+                <path class="ng-path" d="M305 420 L362 415 L392 428 L390 462 L365 480 L328 480 L305 465 L300 445Z" fill="rgba(61,184,139,0.18)" stroke="rgba(61,184,139,0.46)" stroke-width="1.2"/>
+                <text x="348" y="452" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Delta</text>
+              </g>
+              <!-- Bayelsa -->
+              <g class="ng-zone" data-state="bayelsa" onclick="selectState('bayelsa')" style="cursor:pointer;">
+                <path class="ng-path" d="M328 480 L365 480 L380 498 L355 515 L330 512 L315 498Z" fill="rgba(61,184,139,0.15)" stroke="rgba(61,184,139,0.4)" stroke-width="1.2"/>
+                <text x="348" y="500" text-anchor="middle" fill="#F0EDE8" font-size="7" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Bayelsa</text>
+              </g>
+              <!-- Rivers -->
+              <g class="ng-zone" data-state="rivers" onclick="selectState('rivers')" style="cursor:pointer;">
+                <path class="ng-path" d="M380 462 L420 450 L445 465 L445 495 L415 515 L380 510 L365 495 L365 480Z" fill="rgba(61,184,139,0.22)" stroke="rgba(61,184,139,0.52)" stroke-width="1.2"/>
+                <text x="408" y="486" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Rivers</text>
+              </g>
+              <!-- Akwa Ibom -->
+              <g class="ng-zone" data-state="akwa-ibom" onclick="selectState('akwa-ibom')" style="cursor:pointer;">
+                <path class="ng-path" d="M445 465 L485 455 L505 470 L500 500 L470 515 L445 508 L445 495Z" fill="rgba(61,184,139,0.16)" stroke="rgba(61,184,139,0.42)" stroke-width="1.2"/>
+                <text x="472" y="487" text-anchor="middle" fill="#F0EDE8" font-size="7" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Akwa Ibom</text>
+              </g>
+              <!-- Cross River -->
+              <g class="ng-zone" data-state="cross-river" onclick="selectState('cross-river')" style="cursor:pointer;">
+                <path class="ng-path" d="M445 415 L490 405 L515 418 L518 455 L505 470 L485 455 L445 465 L430 448Z" fill="rgba(61,184,139,0.15)" stroke="rgba(61,184,139,0.4)" stroke-width="1.2"/>
+                <text x="478" y="440" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Cross River</text>
+              </g>
+
+              <!-- ── SOUTH-EAST ── -->
+              <!-- Anambra -->
+              <g class="ng-zone" data-state="anambra" onclick="selectState('anambra')" style="cursor:pointer;">
+                <path class="ng-path" d="M392 378 L428 368 L448 380 L448 412 L420 425 L392 420 L385 398Z" fill="rgba(61,184,139,0.2)" stroke="rgba(61,184,139,0.5)" stroke-width="1.2"/>
+                <text x="416" y="400" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Anambra</text>
+              </g>
+              <!-- Imo -->
+              <g class="ng-zone" data-state="imo" onclick="selectState('imo')" style="cursor:pointer;">
+                <path class="ng-path" d="M420 425 L448 412 L470 422 L465 455 L445 465 L420 458 L410 442Z" fill="rgba(61,184,139,0.17)" stroke="rgba(61,184,139,0.44)" stroke-width="1.2"/>
+                <text x="443" y="442" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Imo</text>
+              </g>
+              <!-- Abia -->
+              <g class="ng-zone" data-state="abia" onclick="selectState('abia')" style="cursor:pointer;">
+                <path class="ng-path" d="M448 380 L488 370 L510 385 L508 415 L485 428 L465 422 L448 412Z" fill="rgba(61,184,139,0.16)" stroke="rgba(61,184,139,0.42)" stroke-width="1.2"/>
+                <text x="478" y="402" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Abia</text>
+              </g>
+              <!-- Enugu -->
+              <g class="ng-zone" data-state="enugu" onclick="selectState('enugu')" style="cursor:pointer;">
+                <path class="ng-path" d="M428 328 L468 318 L495 330 L495 365 L470 378 L448 375 L428 360Z" fill="rgba(61,184,139,0.17)" stroke="rgba(61,184,139,0.43)" stroke-width="1.2"/>
+                <text x="460" y="352" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Enugu</text>
+              </g>
+              <!-- Ebonyi -->
+              <g class="ng-zone" data-state="ebonyi" onclick="selectState('ebonyi')" style="cursor:pointer;">
+                <path class="ng-path" d="M468 318 L505 308 L528 322 L525 358 L498 368 L475 360 L468 340Z" fill="rgba(61,184,139,0.14)" stroke="rgba(61,184,139,0.38)" stroke-width="1.2"/>
+                <text x="497" y="340" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ebonyi</text>
+              </g>
+
+              <!-- ── NORTH-CENTRAL ── -->
+              <!-- Kwara -->
+              <g class="ng-zone" data-state="kwara" onclick="selectState('kwara')" style="cursor:pointer;">
+                <path class="ng-path" d="M148 258 L218 245 L255 255 L258 298 L218 308 L148 298Z" fill="rgba(198,167,94,0.18)" stroke="rgba(198,167,94,0.45)" stroke-width="1.2"/>
+                <text x="200" y="278" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Kwara</text>
+              </g>
+              <!-- Kogi -->
+              <g class="ng-zone" data-state="kogi" onclick="selectState('kogi')" style="cursor:pointer;">
+                <path class="ng-path" d="M258 258 L320 248 L360 260 L368 310 L350 338 L318 340 L295 325 L258 298Z" fill="rgba(198,167,94,0.16)" stroke="rgba(198,167,94,0.42)" stroke-width="1.2"/>
+                <text x="310" y="295" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Kogi</text>
+              </g>
+              <!-- Benue -->
+              <g class="ng-zone" data-state="benue" onclick="selectState('benue')" style="cursor:pointer;">
+                <path class="ng-path" d="M360 258 L428 248 L468 260 L468 318 L428 328 L395 325 L368 308Z" fill="rgba(198,167,94,0.15)" stroke="rgba(198,167,94,0.4)" stroke-width="1.2"/>
+                <text x="415" y="290" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Benue</text>
+              </g>
+              <!-- Niger -->
+              <g class="ng-zone" data-state="niger" onclick="selectState('niger')" style="cursor:pointer;">
+                <path class="ng-path" d="M118 180 L218 165 L268 175 L270 245 L218 258 L148 258 L118 238Z" fill="rgba(198,167,94,0.14)" stroke="rgba(198,167,94,0.38)" stroke-width="1.2"/>
+                <text x="193" y="212" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Niger</text>
+              </g>
+              <!-- FCT Abuja -->
+              <g class="ng-zone" data-state="fct" onclick="selectState('fct')" style="cursor:pointer;">
+                <path class="ng-path" d="M275 215 L320 208 L345 220 L348 255 L318 265 L285 258 L270 245Z" fill="rgba(61,184,139,0.3)" stroke="rgba(61,184,139,0.7)" stroke-width="1.5"/>
+                <text x="308" y="240" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="700" pointer-events="none">FCT Abuja</text>
+              </g>
+              <!-- Nassarawa -->
+              <g class="ng-zone" data-state="nassarawa" onclick="selectState('nassarawa')" style="cursor:pointer;">
+                <path class="ng-path" d="M345 218 L398 208 L428 222 L428 260 L395 268 L368 262 L348 248Z" fill="rgba(198,167,94,0.13)" stroke="rgba(198,167,94,0.36)" stroke-width="1.2"/>
+                <text x="385" y="240" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Nassarawa</text>
+              </g>
+              <!-- Plateau -->
+              <g class="ng-zone" data-state="plateau" onclick="selectState('plateau')" style="cursor:pointer;">
+                <path class="ng-path" d="M398 170 L455 160 L488 172 L490 215 L468 228 L430 232 L398 220Z" fill="rgba(198,167,94,0.14)" stroke="rgba(198,167,94,0.38)" stroke-width="1.2"/>
+                <text x="442" y="198" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Plateau</text>
+              </g>
+
+              <!-- ── NORTH-EAST ── -->
+              <!-- Taraba -->
+              <g class="ng-zone" data-state="taraba" onclick="selectState('taraba')" style="cursor:pointer;">
+                <path class="ng-path" d="M468 170 L538 158 L575 172 L575 235 L545 258 L505 265 L468 252 L468 215Z" fill="rgba(198,167,94,0.12)" stroke="rgba(198,167,94,0.34)" stroke-width="1.2"/>
+                <text x="520" y="212" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Taraba</text>
+              </g>
+              <!-- Adamawa -->
+              <g class="ng-zone" data-state="adamawa" onclick="selectState('adamawa')" style="cursor:pointer;">
+                <path class="ng-path" d="M538 105 L590 95 L615 110 L615 172 L575 172 L538 158Z" fill="rgba(198,167,94,0.11)" stroke="rgba(198,167,94,0.32)" stroke-width="1.2"/>
+                <text x="575" y="138" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Adamawa</text>
+              </g>
+              <!-- Gombe -->
+              <g class="ng-zone" data-state="gombe" onclick="selectState('gombe')" style="cursor:pointer;">
+                <path class="ng-path" d="M468 115 L535 105 L538 158 L468 170 L455 148Z" fill="rgba(198,167,94,0.12)" stroke="rgba(198,167,94,0.34)" stroke-width="1.2"/>
+                <text x="499" y="140" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Gombe</text>
+              </g>
+              <!-- Bauchi -->
+              <g class="ng-zone" data-state="bauchi" onclick="selectState('bauchi')" style="cursor:pointer;">
+                <path class="ng-path" d="M388 100 L465 90 L468 115 L455 160 L398 170 L368 155 L368 112Z" fill="rgba(198,167,94,0.11)" stroke="rgba(198,167,94,0.32)" stroke-width="1.2"/>
+                <text x="415" y="135" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Bauchi</text>
+              </g>
+              <!-- Yobe -->
+              <g class="ng-zone" data-state="yobe" onclick="selectState('yobe')" style="cursor:pointer;">
+                <path class="ng-path" d="M390 45 L468 35 L530 48 L538 105 L468 115 L388 100 L385 65Z" fill="rgba(198,167,94,0.1)" stroke="rgba(198,167,94,0.3)" stroke-width="1.2"/>
+                <text x="458" y="78" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Yobe</text>
+              </g>
+              <!-- Borno -->
+              <g class="ng-zone" data-state="borno" onclick="selectState('borno')" style="cursor:pointer;">
+                <path class="ng-path" d="M530 18 L615 18 L615 95 L590 95 L535 105 L530 48Z" fill="rgba(198,167,94,0.09)" stroke="rgba(198,167,94,0.28)" stroke-width="1.2"/>
+                <text x="572" y="62" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Borno</text>
+              </g>
+
+              <!-- ── NORTH-WEST ── -->
+              <!-- Kebbi -->
+              <g class="ng-zone" data-state="kebbi" onclick="selectState('kebbi')" style="cursor:pointer;">
+                <path class="ng-path" d="M18 125 L85 115 L118 128 L118 180 L85 195 L38 188 L18 165Z" fill="rgba(198,167,94,0.11)" stroke="rgba(198,167,94,0.32)" stroke-width="1.2"/>
+                <text x="70" y="155" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Kebbi</text>
+              </g>
+              <!-- Sokoto -->
+              <g class="ng-zone" data-state="sokoto" onclick="selectState('sokoto')" style="cursor:pointer;">
+                <path class="ng-path" d="M18 62 L88 50 L120 62 L118 128 L85 115 L18 125Z" fill="rgba(198,167,94,0.1)" stroke="rgba(198,167,94,0.3)" stroke-width="1.2"/>
+                <text x="68" y="92" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Sokoto</text>
+              </g>
+              <!-- Zamfara -->
+              <g class="ng-zone" data-state="zamfara" onclick="selectState('zamfara')" style="cursor:pointer;">
+                <path class="ng-path" d="M120 62 L192 50 L225 65 L225 118 L192 130 L118 128 L120 85Z" fill="rgba(198,167,94,0.1)" stroke="rgba(198,167,94,0.3)" stroke-width="1.2"/>
+                <text x="170" y="92" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Zamfara</text>
+              </g>
+              <!-- Katsina -->
+              <g class="ng-zone" data-state="katsina" onclick="selectState('katsina')" style="cursor:pointer;">
+                <path class="ng-path" d="M192 30 L290 22 L318 38 L315 85 L290 98 L225 95 L192 75Z" fill="rgba(198,167,94,0.1)" stroke="rgba(198,167,94,0.3)" stroke-width="1.2"/>
+                <text x="255" y="62" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Katsina</text>
+              </g>
+              <!-- Kano -->
+              <g class="ng-zone" data-state="kano" onclick="selectState('kano')" style="cursor:pointer;">
+                <path class="ng-path" d="M290 22 L390 18 L392 65 L368 80 L318 85 L315 52Z" fill="rgba(198,167,94,0.14)" stroke="rgba(198,167,94,0.38)" stroke-width="1.2"/>
+                <text x="345" y="52" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Kano</text>
+              </g>
+              <!-- Kaduna -->
+              <g class="ng-zone" data-state="kaduna" onclick="selectState('kaduna')" style="cursor:pointer;">
+                <path class="ng-path" d="M225 118 L292 108 L320 120 L325 175 L280 188 L235 182 L192 168 L192 130Z" fill="rgba(198,167,94,0.13)" stroke="rgba(198,167,94,0.36)" stroke-width="1.2"/>
+                <text x="257" y="152" text-anchor="middle" fill="#F0EDE8" font-size="8" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Kaduna</text>
+              </g>
+              <!-- Jigawa -->
+              <g class="ng-zone" data-state="jigawa" onclick="selectState('jigawa')" style="cursor:pointer;">
+                <path class="ng-path" d="M368 45 L392 38 L390 100 L368 112 L340 100 L340 62Z" fill="rgba(198,167,94,0.1)" stroke="rgba(198,167,94,0.3)" stroke-width="1.2"/>
+                <text x="365" y="78" text-anchor="middle" fill="#F0EDE8" font-size="7.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Jigawa</text>
+              </g>
+
+              <!-- Floating SVG tooltip -->
+              <g id="map-tooltip" style="display:none;pointer-events:none;">
+                <rect id="tt-bg" x="0" y="0" width="138" height="46" rx="8" fill="var(--bg)" stroke="rgba(61,184,139,0.6)" stroke-width="1"/>
+                <text id="tt-name" x="10" y="18" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="700"></text>
+                <text id="tt-price" x="10" y="35" fill="#3DB88B" font-size="10.5" font-family="Syne,sans-serif" font-weight="700"></text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- LAGOS DRILL-DOWN MAP -->
+          <div id="lagos-map-wrap" style="display:none;">
+            <div style="font-size:0.7rem;color:var(--muted);text-align:center;margin-bottom:8px;">Click any neighbourhood · <span style="color:var(--teal);cursor:pointer;" onclick="showNigeriaMap()">← Back to Nigeria</span></div>
+            <svg id="lagos-map" viewBox="0 0 700 520" style="width:100%;" xmlns="http://www.w3.org/2000/svg">
+              <rect width="700" height="520" fill="rgba(61,184,139,0.03)" rx="10"/>
+              <ellipse cx="350" cy="490" rx="380" ry="80" fill="rgba(61,184,139,0.08)"/>
+              <path d="M0 420 Q100 400 200 430 Q300 460 400 440 Q500 420 600 450 Q650 460 700 440 L700 520 L0 520Z" fill="rgba(61,184,139,0.1)"/>
+              <text x="350" y="505" text-anchor="middle" fill="rgba(61,184,139,0.4)" font-size="10" font-family="DM Sans,sans-serif" letter-spacing="3">ATLANTIC OCEAN / LAGOS LAGOON</text>
+              <!-- Victoria Island -->
+              <g class="map-zone" data-zone="victoria-island" onclick="selectZone('victoria-island')" style="cursor:pointer;">
+                <path d="M380 310 Q420 295 460 305 Q480 315 475 340 Q465 360 440 365 Q415 368 395 355 Q378 340 380 310Z" fill="rgba(61,184,139,0.25)" stroke="rgba(61,184,139,0.6)" stroke-width="1.5" class="zone-path"/>
+                <text x="430" y="337" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Victoria Island</text>
+              </g>
+              <!-- Ikoyi -->
+              <g class="map-zone" data-zone="ikoyi" onclick="selectZone('ikoyi')" style="cursor:pointer;">
+                <path d="M318 298 Q355 283 385 293 Q395 308 390 330 Q382 348 360 352 Q335 352 318 338 Q308 320 318 298Z" fill="rgba(61,184,139,0.22)" stroke="rgba(61,184,139,0.55)" stroke-width="1.5" class="zone-path"/>
+                <text x="352" y="325" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ikoyi</text>
+              </g>
+              <!-- Lekki Phase 1 -->
+              <g class="map-zone" data-zone="lekki-1" onclick="selectZone('lekki-1')" style="cursor:pointer;">
+                <path d="M475 303 Q530 288 570 298 Q585 313 578 343 Q565 368 540 373 Q510 373 488 358 Q470 340 475 303Z" fill="rgba(61,184,139,0.22)" stroke="rgba(61,184,139,0.58)" stroke-width="1.5" class="zone-path"/>
+                <text x="528" y="337" text-anchor="middle" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Lekki Phase 1</text>
+              </g>
+              <!-- Lekki / Chevron -->
+              <g class="map-zone" data-zone="lekki-2" onclick="selectZone('lekki-2')" style="cursor:pointer;">
+                <path d="M575 293 Q625 276 660 288 Q678 306 672 336 Q660 360 635 366 Q608 366 588 348 Q570 328 575 293Z" fill="rgba(198,167,94,0.2)" stroke="rgba(198,167,94,0.52)" stroke-width="1.5" class="zone-path"/>
+                <text x="624" y="330" text-anchor="middle" fill="#F0EDE8" font-size="9" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Lekki/Chevron</text>
+              </g>
+              <!-- Lagos Island -->
+              <g class="map-zone" data-zone="lagos-island" onclick="selectZone('lagos-island')" style="cursor:pointer;">
+                <path d="M258 318 Q296 303 326 313 Q338 328 332 353 Q320 370 296 373 Q270 373 252 356 Q240 338 258 318Z" fill="rgba(61,184,139,0.17)" stroke="rgba(61,184,139,0.45)" stroke-width="1.5" class="zone-path"/>
+                <text x="290" y="347" text-anchor="middle" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Lagos Island</text>
+              </g>
+              <!-- Apapa -->
+              <g class="map-zone" data-zone="apapa" onclick="selectZone('apapa')" style="cursor:pointer;">
+                <path d="M178 308 Q220 293 250 306 Q262 323 254 350 Q240 370 214 373 Q186 373 168 355 Q154 336 178 308Z" fill="rgba(61,184,139,0.12)" stroke="rgba(61,184,139,0.32)" stroke-width="1.5" class="zone-path"/>
+                <text x="212" y="342" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Apapa</text>
+              </g>
+              <!-- Surulere -->
+              <g class="map-zone" data-zone="surulere" onclick="selectZone('surulere')" style="cursor:pointer;">
+                <path d="M146 228 Q193 213 223 223 Q236 240 230 266 Q220 288 196 293 Q168 293 148 276 Q132 258 146 228Z" fill="rgba(61,184,139,0.14)" stroke="rgba(61,184,139,0.4)" stroke-width="1.5" class="zone-path"/>
+                <text x="187" y="260" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Surulere</text>
+              </g>
+              <!-- Yaba -->
+              <g class="map-zone" data-zone="yaba" onclick="selectZone('yaba')" style="cursor:pointer;">
+                <path d="M218 198 Q266 183 298 193 Q313 208 308 236 Q298 256 273 260 Q246 260 226 246 Q210 230 218 198Z" fill="rgba(61,184,139,0.15)" stroke="rgba(61,184,139,0.42)" stroke-width="1.5" class="zone-path"/>
+                <text x="262" y="227" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Yaba</text>
+              </g>
+              <!-- Maryland -->
+              <g class="map-zone" data-zone="maryland" onclick="selectZone('maryland')" style="cursor:pointer;">
+                <path d="M246 153 Q290 138 316 150 Q328 166 320 190 Q308 210 283 213 Q256 213 238 196 Q224 178 246 153Z" fill="rgba(61,184,139,0.12)" stroke="rgba(61,184,139,0.35)" stroke-width="1.5" class="zone-path"/>
+                <text x="277" y="182" text-anchor="middle" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Maryland</text>
+              </g>
+              <!-- Gbagada -->
+              <g class="map-zone" data-zone="gbagada" onclick="selectZone('gbagada')" style="cursor:pointer;">
+                <path d="M298 153 Q346 138 378 150 Q391 166 384 194 Q372 216 346 220 Q318 220 300 203 Q285 186 298 153Z" fill="rgba(61,184,139,0.14)" stroke="rgba(61,184,139,0.4)" stroke-width="1.5" class="zone-path"/>
+                <text x="338" y="185" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Gbagada</text>
+              </g>
+              <!-- Ikeja GRA -->
+              <g class="map-zone" data-zone="ikeja" onclick="selectZone('ikeja')" style="cursor:pointer;">
+                <path d="M153 98 Q208 80 246 92 Q260 110 254 140 Q242 163 216 168 Q186 168 161 151 Q144 131 153 98Z" fill="rgba(198,167,94,0.18)" stroke="rgba(198,167,94,0.48)" stroke-width="1.5" class="zone-path"/>
+                <text x="201" y="130" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ikeja GRA</text>
+              </g>
+              <!-- Magodo -->
+              <g class="map-zone" data-zone="magodo" onclick="selectZone('magodo')" style="cursor:pointer;">
+                <path d="M256 78 Q306 62 340 74 Q353 91 346 118 Q334 140 308 144 Q280 144 261 127 Q246 108 256 78Z" fill="rgba(61,184,139,0.13)" stroke="rgba(61,184,139,0.37)" stroke-width="1.5" class="zone-path"/>
+                <text x="300" y="112" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Magodo</text>
+              </g>
+              <!-- Ojodu / Berger -->
+              <g class="map-zone" data-zone="ojodu" onclick="selectZone('ojodu')" style="cursor:pointer;">
+                <path d="M350 63 Q396 48 428 60 Q440 76 434 102 Q422 123 398 127 Q372 127 354 110 Q340 92 350 63Z" fill="rgba(61,184,139,0.11)" stroke="rgba(61,184,139,0.33)" stroke-width="1.5" class="zone-path"/>
+                <text x="391" y="94" text-anchor="middle" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ojodu/Berger</text>
+              </g>
+              <!-- Ajah -->
+              <g class="map-zone" data-zone="ajah" onclick="selectZone('ajah')" style="cursor:pointer;">
+                <path d="M578 368 Q626 353 660 366 Q673 382 666 406 Q653 426 628 430 Q601 430 581 413 Q566 396 578 368Z" fill="rgba(61,184,139,0.16)" stroke="rgba(61,184,139,0.43)" stroke-width="1.5" class="zone-path"/>
+                <text x="621" y="399" text-anchor="middle" fill="#F0EDE8" font-size="10" font-family="Syne,sans-serif" font-weight="600" pointer-events="none">Ajah</text>
+              </g>
+              <!-- SVG tooltip -->
+              <g id="lagos-tooltip" style="display:none;pointer-events:none;">
+                <rect id="ltt-bg" x="0" y="0" width="138" height="46" rx="8" fill="var(--bg)" stroke="rgba(61,184,139,0.6)" stroke-width="1"/>
+                <text id="ltt-name" x="10" y="18" fill="#F0EDE8" font-size="9.5" font-family="Syne,sans-serif" font-weight="700"></text>
+                <text id="ltt-price" x="10" y="35" fill="#3DB88B" font-size="10.5" font-family="Syne,sans-serif" font-weight="700"></text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Legend -->
+          <div style="display:flex;gap:16px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:2px;background:rgba(61,184,139,0.15);border:1px solid rgba(61,184,139,0.4);"></div><span style="font-size:0.7rem;color:var(--muted);">Below ₦1M/yr</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:2px;background:rgba(61,184,139,0.28);border:1px solid rgba(61,184,139,0.55);"></div><span style="font-size:0.7rem;color:var(--muted);">₦1M–₦5M/yr</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:2px;background:rgba(198,167,94,0.35);border:1px solid rgba(198,167,94,0.6);"></div><span style="font-size:0.7rem;color:var(--muted);">₦5M–₦15M/yr</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;border-radius:2px;background:rgba(61,184,139,0.45);border:1px solid rgba(61,184,139,0.8);"></div><span style="font-size:0.7rem;color:var(--muted);">₦15M+/yr (Lagos premium)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAILS PANEL -->
+      <div style="position:sticky;top:100px;display:flex;flex-direction:column;gap:16px;">
+        <div id="zone-detail" style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:28px;">
+          <div id="zone-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;gap:12px;opacity:0.4;">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span style="font-family:var(--font-display);font-size:0.9rem;text-align:center;">Click a state or neighbourhood</span>
+          </div>
+          <div id="zone-info" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;gap:10px;">
+              <div>
+                <div id="zi-tag" style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);font-weight:600;margin-bottom:6px;"></div>
+                <div id="zi-name" style="font-family:var(--font-display);font-size:1.35rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2;"></div>
+              </div>
+              <div id="zi-tier" style="font-size:0.7rem;background:var(--teal-dim);color:var(--teal);padding:4px 10px;border-radius:100px;font-weight:600;border:1px solid rgba(61,184,139,0.2);white-space:nowrap;flex-shrink:0;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+              <div id="ri-studio" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card-inner);border-radius:10px;border:1px solid var(--border);">
+                <span style="font-size:0.8rem;color:var(--muted);">Studio / 1-bed</span>
+                <span class="rent-val" style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--teal);"></span>
+              </div>
+              <div id="ri-2bed" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card-inner);border-radius:10px;border:1px solid var(--border);">
+                <span style="font-size:0.8rem;color:var(--muted);">2-bedroom</span>
+                <span class="rent-val" style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--teal);"></span>
+              </div>
+              <div id="ri-3bed" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card-inner);border-radius:10px;border:1px solid var(--border);">
+                <span style="font-size:0.8rem;color:var(--muted);">3-bedroom</span>
+                <span class="rent-val" style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--teal);"></span>
+              </div>
+              <div id="ri-shortlet" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--card-inner);border-radius:10px;border:1px solid var(--border);">
+                <span style="font-size:0.8rem;color:var(--muted);">Shortlet / night</span>
+                <span class="rent-val" style="font-family:var(--font-display);font-size:0.875rem;font-weight:700;color:var(--gold);"></span>
+              </div>
+            </div>
+            <div id="zi-trend" style="font-size:0.78rem;color:var(--muted);padding:10px 0;border-top:1px solid var(--border);"></div>
+            <div id="zi-lagos-drill" style="display:none;margin-top:14px;">
+              <button onclick="drillLagos()" style="width:100%;padding:10px;background:var(--teal-dim);border:1px solid rgba(61,184,139,0.3);border-radius:10px;color:var(--teal);font-family:var(--font-display);font-size:0.8rem;font-weight:600;cursor:pointer;letter-spacing:0.04em;">Explore Lagos Neighbourhoods →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick stats -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
+            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px;">States Tracked</div>
+            <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--cream);">37</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
+            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px;">YoY Avg Increase</div>
+            <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--teal);">+18%</div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
+            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px;">Avg. Nigeria Rent</div>
+            <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cream);">₦720k<span style="font-size:0.7rem;color:var(--muted);font-weight:400;">/yr</span></div>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
+            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:6px;">Avg. Lagos Rent</div>
+            <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cream);">₦2.4M<span style="font-size:0.7rem;color:var(--muted);font-weight:400;">/yr</span></div>
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--muted);text-align:center;padding:4px 0;opacity:0.7;">
+          Data as of <span id="map-date-side"></span> · Estimated from verified listings
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── DATE ──
+(function(){
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var d = new Date();
+  var str = months[d.getMonth()] + ' ' + d.getFullYear();
+  var el1 = document.getElementById('map-date');
+  var el2 = document.getElementById('map-date-side');
+  if(el1) el1.textContent = str;
+  if(el2) el2.textContent = str;
+})();
+
+// ── STATE DATA (all 36 + FCT) ──
+var STATE_DATA = {
+  'lagos':      { name:'Lagos',       tag:'South-West', tier:'High-End',     studio:'₦800k–₦6M',  bed2:'₦2M–₦15M',   bed3:'₦5M–₦60M',    shortlet:'₦25k–₦350k', trend:'↑ +22% YoY · Nigeria\'s most active rental market', tc:'#3DB88B', hasLagos:true },
+  'fct':        { name:'FCT Abuja',   tag:'North-Central', tier:'Premium',   studio:'₦1.2M–₦4M',  bed2:'₦2.5M–₦9M',  bed3:'₦5M–₦20M',    shortlet:'₦40k–₦150k', trend:'↑ +20% YoY · Capital city — strong government & diplomatic demand', tc:'#3DB88B' },
+  'rivers':     { name:'Rivers',      tag:'South-South', tier:'Mid-High',    studio:'₦500k–₦2M',  bed2:'₦1.5M–₦5M',  bed3:'₦3.5M–₦12M',  shortlet:'₦25k–₦100k', trend:'↑ +16% YoY · Port Harcourt drives high rental demand', tc:'#3DB88B' },
+  'kano':       { name:'Kano',        tag:'North-West', tier:'Mid-Range',    studio:'₦200k–₦700k', bed2:'₦500k–₦1.8M', bed3:'₦1.2M–₦4M',  shortlet:'₦12k–₦45k', trend:'↑ +14% YoY · Commercial capital of the North', tc:'#3DB88B' },
+  'oyo':        { name:'Oyo',         tag:'South-West', tier:'Mid-Range',    studio:'₦300k–₦1.2M', bed2:'₦800k–₦2.5M', bed3:'₦2M–₦6M',    shortlet:'₦15k–₦55k', trend:'↑ +13% YoY · Ibadan is Nigeria\'s 2nd largest city', tc:'#3DB88B' },
+  'kaduna':     { name:'Kaduna',      tag:'North-West', tier:'Mid-Range',    studio:'₦200k–₦800k', bed2:'₦500k–₦2M',  bed3:'₦1.2M–₦4.5M', shortlet:'₦12k–₦40k', trend:'↑ +12% YoY · Northern commercial hub, growing tech scene', tc:'#3DB88B' },
+  'ogun':       { name:'Ogun',        tag:'South-West', tier:'Mid-Range',    studio:'₦250k–₦900k', bed2:'₦600k–₦2.2M', bed3:'₦1.5M–₦5M',  shortlet:'₦15k–₦50k', trend:'↑ +18% YoY · Industrial zone — proximity to Lagos boosts rents', tc:'#3DB88B' },
+  'enugu':      { name:'Enugu',       tag:'South-East', tier:'Mid-Range',    studio:'₦300k–₦1M',  bed2:'₦700k–₦2.5M', bed3:'₦1.8M–₦5.5M', shortlet:'₦18k–₦55k', trend:'↑ +15% YoY · Coal City — steady demand, growing expat community', tc:'#3DB88B' },
+  'delta':      { name:'Delta',       tag:'South-South', tier:'Mid-Range',   studio:'₦280k–₦1M',  bed2:'₦650k–₦2.5M', bed3:'₦1.5M–₦5.5M', shortlet:'₦18k–₦55k', trend:'↑ +14% YoY · Oil-sector activity drives Warri demand', tc:'#3DB88B' },
+  'anambra':    { name:'Anambra',     tag:'South-East', tier:'Mid-Range',    studio:'₦250k–₦900k', bed2:'₦600k–₦2M',  bed3:'₦1.5M–₦5M',   shortlet:'₦15k–₦50k', trend:'↑ +13% YoY · Onitsha & Awka — strong commercial demand', tc:'#3DB88B' },
+  'kwara':      { name:'Kwara',       tag:'North-Central', tier:'Affordable',studio:'₦150k–₦500k', bed2:'₦400k–₦1.2M', bed3:'₦900k–₦3M',  shortlet:'₦10k–₦35k', trend:'↑ +10% YoY · Ilorin gaining traction as affordable hub', tc:'#C6A75E' },
+  'imo':        { name:'Imo',         tag:'South-East', tier:'Affordable',   studio:'₦200k–₦700k', bed2:'₦500k–₦1.8M', bed3:'₦1.2M–₦4M',  shortlet:'₦12k–₦40k', trend:'↑ +11% YoY · Owerri growing steadily', tc:'#C6A75E' },
+  'niger':      { name:'Niger',       tag:'North-Central', tier:'Affordable',studio:'₦120k–₦400k', bed2:'₦300k–₦1M',  bed3:'₦700k–₦2.5M', shortlet:'₦8k–₦28k',  trend:'→ +9% YoY · Minna — moderate, stable demand', tc:'#C6A75E' },
+  'plateau':    { name:'Plateau',     tag:'North-Central', tier:'Affordable',studio:'₦180k–₦600k', bed2:'₦450k–₦1.5M', bed3:'₦1M–₦3.5M',  shortlet:'₦10k–₦35k', trend:'↑ +11% YoY · Jos — growing student & civil-servant demand', tc:'#C6A75E' },
+  'akwa-ibom':  { name:'Akwa Ibom',   tag:'South-South', tier:'Mid-Range',   studio:'₦220k–₦800k', bed2:'₦550k–₦2M',  bed3:'₦1.3M–₦4.5M', shortlet:'₦14k–₦48k', trend:'↑ +13% YoY · Uyo expanding rapidly with oil industry presence', tc:'#3DB88B' },
+  'cross-river':{ name:'Cross River', tag:'South-South', tier:'Affordable',  studio:'₦180k–₦650k', bed2:'₦450k–₦1.7M', bed3:'₦1.1M–₦4M',  shortlet:'₦12k–₦40k', trend:'↑ +10% YoY · Calabar — tourism drives shortlet demand', tc:'#C6A75E' },
+  'benue':      { name:'Benue',       tag:'North-Central', tier:'Budget',    studio:'₦100k–₦350k', bed2:'₦280k–₦900k', bed3:'₦650k–₦2M',  shortlet:'₦7k–₦22k',  trend:'→ +8% YoY · Makurdi — mostly budget segment', tc:'#C6A75E' },
+  'nassarawa':  { name:'Nassarawa',   tag:'North-Central', tier:'Budget',    studio:'₦100k–₦360k', bed2:'₦280k–₦950k', bed3:'₦650k–₦2.2M', shortlet:'₦7k–₦24k',  trend:'→ +9% YoY · Commuter state near Abuja, growing', tc:'#C6A75E' },
+  'kogi':       { name:'Kogi',        tag:'North-Central', tier:'Budget',    studio:'₦90k–₦320k',  bed2:'₦250k–₦850k', bed3:'₦600k–₦2M',  shortlet:'₦6k–₦20k',  trend:'→ +7% YoY · Lokoja — modest demand', tc:'#C6A75E' },
+  'bauchi':     { name:'Bauchi',      tag:'North-East', tier:'Budget',       studio:'₦80k–₦280k',  bed2:'₦200k–₦750k', bed3:'₦480k–₦1.8M', shortlet:'₦5k–₦18k',  trend:'→ +7% YoY · Bauchi — limited rental market activity', tc:'#C6A75E' },
+  'gombe':      { name:'Gombe',       tag:'North-East', tier:'Budget',       studio:'₦80k–₦280k',  bed2:'₦200k–₦750k', bed3:'₦480k–₦1.8M', shortlet:'₦5k–₦18k',  trend:'→ +7% YoY · Gombe — emerging market', tc:'#C6A75E' },
+  'taraba':     { name:'Taraba',      tag:'North-East', tier:'Budget',       studio:'₦70k–₦240k',  bed2:'₦180k–₦600k', bed3:'₦420k–₦1.4M', shortlet:'₦5k–₦15k',  trend:'→ +6% YoY · Jalingo — very low rental activity', tc:'#C6A75E' },
+  'adamawa':    { name:'Adamawa',     tag:'North-East', tier:'Budget',       studio:'₦70k–₦240k',  bed2:'₦180k–₦620k', bed3:'₦420k–₦1.5M', shortlet:'₦5k–₦15k',  trend:'→ +6% YoY · Yola — small rental market', tc:'#C6A75E' },
+  'yobe':       { name:'Yobe',        tag:'North-East', tier:'Budget',       studio:'₦60k–₦200k',  bed2:'₦160k–₦550k', bed3:'₦380k–₦1.3M', shortlet:'₦4k–₦14k',  trend:'→ +5% YoY · Damaturu — limited formal rentals', tc:'#C6A75E' },
+  'borno':      { name:'Borno',       tag:'North-East', tier:'Budget',       studio:'₦65k–₦220k',  bed2:'₦170k–₦580k', bed3:'₦400k–₦1.4M', shortlet:'₦4k–₦15k',  trend:'→ +6% YoY · Maiduguri — recovering market', tc:'#C6A75E' },
+  'sokoto':     { name:'Sokoto',      tag:'North-West', tier:'Budget',       studio:'₦80k–₦260k',  bed2:'₦200k–₦700k', bed3:'₦480k–₦1.6M', shortlet:'₦5k–₦17k',  trend:'→ +7% YoY · Sokoto — modest activity', tc:'#C6A75E' },
+  'kebbi':      { name:'Kebbi',       tag:'North-West', tier:'Budget',       studio:'₦70k–₦240k',  bed2:'₦180k–₦620k', bed3:'₦420k–₦1.4M', shortlet:'₦5k–₦15k',  trend:'→ +6% YoY · Birnin Kebbi — limited formal market', tc:'#C6A75E' },
+  'zamfara':    { name:'Zamfara',     tag:'North-West', tier:'Budget',       studio:'₦70k–₦230k',  bed2:'₦175k–₦600k', bed3:'₦400k–₦1.4M', shortlet:'₦5k–₦15k',  trend:'→ +6% YoY · Gusau — emerging', tc:'#C6A75E' },
+  'katsina':    { name:'Katsina',     tag:'North-West', tier:'Budget',       studio:'₦80k–₦270k',  bed2:'₦200k–₦700k', bed3:'₦470k–₦1.6M', shortlet:'₦5k–₦17k',  trend:'→ +7% YoY · Katsina — moderate North-West demand', tc:'#C6A75E' },
+  'jigawa':     { name:'Jigawa',      tag:'North-West', tier:'Budget',       studio:'₦70k–₦230k',  bed2:'₦175k–₦600k', bed3:'₦400k–₦1.3M', shortlet:'₦4k–₦14k',  trend:'→ +6% YoY · Dutse — very low activity', tc:'#C6A75E' },
+  'osun':       { name:'Osun',        tag:'South-West', tier:'Affordable',   studio:'₦180k–₦620k', bed2:'₦450k–₦1.5M', bed3:'₦1.1M–₦3.5M', shortlet:'₦10k–₦38k', trend:'↑ +10% YoY · Osogbo — steady student-driven demand', tc:'#C6A75E' },
+  'ekiti':      { name:'Ekiti',       tag:'South-West', tier:'Affordable',   studio:'₦150k–₦550k', bed2:'₦380k–₦1.3M', bed3:'₦900k–₦3M',  shortlet:'₦9k–₦32k',  trend:'↑ +9% YoY · Ado-Ekiti — university demand', tc:'#C6A75E' },
+  'ondo':       { name:'Ondo',        tag:'South-West', tier:'Affordable',   studio:'₦160k–₦580k', bed2:'₦400k–₦1.4M', bed3:'₦950k–₦3.2M', shortlet:'₦10k–₦35k', trend:'↑ +10% YoY · Akure growing with civil servant demand', tc:'#C6A75E' },
+  'edo':        { name:'Edo',         tag:'South-South', tier:'Mid-Range',   studio:'₦250k–₦900k', bed2:'₦600k–₦2.2M', bed3:'₦1.5M–₦5.5M', shortlet:'₦15k–₦55k', trend:'↑ +12% YoY · Benin City — strong historic demand', tc:'#3DB88B' },
+  'abia':       { name:'Abia',        tag:'South-East', tier:'Affordable',   studio:'₦200k–₦720k', bed2:'₦500k–₦1.8M', bed3:'₦1.2M–₦4.2M', shortlet:'₦12k–₦42k', trend:'↑ +11% YoY · Umuahia & Aba — growing trade activity', tc:'#C6A75E' },
+  'ebonyi':     { name:'Ebonyi',      tag:'South-East', tier:'Budget',       studio:'₦100k–₦360k', bed2:'₦260k–₦880k', bed3:'₦620k–₦2.1M', shortlet:'₦7k–₦22k',  trend:'→ +8% YoY · Abakaliki — emerging market', tc:'#C6A75E' },
+  'bayelsa':    { name:'Bayelsa',     tag:'South-South', tier:'Mid-Range',   studio:'₦220k–₦780k', bed2:'₦550k–₦1.9M', bed3:'₦1.3M–₦4.2M', shortlet:'₦14k–₦46k', trend:'↑ +12% YoY · Yenagoa — oil sector drives rentals', tc:'#3DB88B' }
+};
+
+// ── LAGOS NEIGHBOURHOOD DATA ──
+var ZONE_DATA = {
+  'victoria-island':{ name:'Victoria Island', tag:'Lagos Island', tier:'Premium',      studio:'₦3.5M–₦6M', bed2:'₦7M–₦15M',  bed3:'₦15M–₦35M', shortlet:'₦80k–₦250k', trend:'↑ +22% YoY · Corporate tenants & expats drive demand', tc:'#3DB88B' },
+  'ikoyi':          { name:'Ikoyi',           tag:'Lagos Island', tier:'Ultra Premium', studio:'₦4M–₦8M',   bed2:'₦10M–₦22M', bed3:'₦20M–₦60M', shortlet:'₦100k–₦350k',trend:'↑ +19% YoY · Lagos\'s most exclusive address', tc:'#3DB88B' },
+  'lekki-1':        { name:'Lekki Phase 1',   tag:'Lekki Corridor', tier:'High-End',   studio:'₦2M–₦4.5M', bed2:'₦5M–₦10M',  bed3:'₦10M–₦22M', shortlet:'₦60k–₦180k', trend:'↑ +25% YoY · Fastest growing upscale market in Lagos', tc:'#3DB88B' },
+  'lekki-2':        { name:'Lekki/Chevron',   tag:'Lekki Corridor', tier:'Mid-High',   studio:'₦1.5M–₦3M', bed2:'₦3.5M–₦7M', bed3:'₦7M–₦15M',  shortlet:'₦45k–₦120k', trend:'↑ +21% YoY · Young professionals & new families', tc:'#3DB88B' },
+  'ajah':           { name:'Ajah',            tag:'Lekki Corridor', tier:'Mid-Range',  studio:'₦800k–₦1.8M',bed2:'₦2M–₦4.5M', bed3:'₦4.5M–₦9M', shortlet:'₦30k–₦80k',  trend:'↑ +28% YoY · Fastest growing affordable corridor', tc:'#3DB88B' },
+  'yaba':           { name:'Yaba',            tag:'Lagos Mainland', tier:'Mid-Range',  studio:'₦600k–₦1.5M',bed2:'₦1.5M–₦3M', bed3:'₦3M–₦6M',   shortlet:'₦25k–₦65k',  trend:'↑ +15% YoY · Tech hub — high youth demand', tc:'#3DB88B' },
+  'surulere':       { name:'Surulere',        tag:'Lagos Mainland', tier:'Mid-Range',  studio:'₦500k–₦1.2M',bed2:'₦1.2M–₦2.5M',bed3:'₦2.5M–₦5M', shortlet:'₦20k–₦55k',  trend:'↑ +12% YoY · Steady demand, good value', tc:'#3DB88B' },
+  'ikeja':          { name:'Ikeja GRA',       tag:'Lagos Mainland', tier:'Mid-High',   studio:'₦1.2M–₦2.8M',bed2:'₦3M–₦6M',   bed3:'₦6M–₦12M',  shortlet:'₦40k–₦100k', trend:'↑ +16% YoY · Business hub — executive demand', tc:'#3DB88B' },
+  'magodo':         { name:'Magodo',          tag:'Lagos Mainland', tier:'Mid-High',   studio:'₦900k–₦2M',  bed2:'₦2.2M–₦5M', bed3:'₦5M–₦10M',  shortlet:'₦35k–₦90k',  trend:'↑ +14% YoY · Quiet estate, family-friendly', tc:'#3DB88B' },
+  'ojodu':          { name:'Ojodu/Berger',    tag:'Lagos Mainland', tier:'Affordable', studio:'₦400k–₦900k',bed2:'₦900k–₦2M',  bed3:'₦2M–₦4M',   shortlet:'₦18k–₦45k',  trend:'→ +9% YoY · Commuter belt, affordable entry', tc:'#C6A75E' },
+  'gbagada':        { name:'Gbagada',         tag:'Lagos Mainland', tier:'Mid-Range',  studio:'₦700k–₦1.6M',bed2:'₦1.6M–₦3.2M',bed3:'₦3.2M–₦6.5M',shortlet:'₦28k–₦70k', trend:'↑ +13% YoY · Well-connected, established', tc:'#3DB88B' },
+  'maryland':       { name:'Maryland',        tag:'Lagos Mainland', tier:'Mid-Range',  studio:'₦600k–₦1.4M',bed2:'₦1.4M–₦3M', bed3:'₦3M–₦5.5M', shortlet:'₦22k–₦60k',  trend:'↑ +11% YoY · Commercial proximity demand', tc:'#3DB88B' },
+  'lagos-island':   { name:'Lagos Island',    tag:'Lagos Island', tier:'Mid-Range',    studio:'₦800k–₦2M',  bed2:'₦2M–₦4.5M', bed3:'₦4.5M–₦9M', shortlet:'₦35k–₦85k',  trend:'↑ +10% YoY · Historic district, rising interest', tc:'#3DB88B' },
+  'apapa':          { name:'Apapa',           tag:'Lagos Island', tier:'Mid-Range',    studio:'₦700k–₦1.5M',bed2:'₦1.5M–₦3.5M',bed3:'₦3.5M–₦7M', shortlet:'₦25k–₦65k',  trend:'→ +8% YoY · Port area — maritime workers', tc:'#C6A75E' }
+};
+
+var currentView = 'nigeria'; // 'nigeria' | 'lagos'
+
+function showNigeriaMap() {
+  currentView = 'nigeria';
+  document.getElementById('nigeria-map-wrap').style.display = 'block';
+  document.getElementById('lagos-map-wrap').style.display = 'none';
+  document.getElementById('map-label').textContent = 'Nigeria — All 36 States + FCT · Click a state to explore';
+  document.getElementById('bc-state').style.display = 'none';
+  document.getElementById('bc-area').style.display = 'none';
+  resetZoneStyles('ng-path');
+  clearDetail();
+}
+
+function drillLagos() {
+  currentView = 'lagos';
+  document.getElementById('nigeria-map-wrap').style.display = 'none';
+  document.getElementById('lagos-map-wrap').style.display = 'block';
+  document.getElementById('map-label').textContent = 'Lagos State — Neighbourhoods · Click to see rent breakdown';
+  document.getElementById('bc-state').style.display = 'inline';
+  document.getElementById('bc-state-name').textContent = 'Lagos';
+  document.getElementById('bc-area').style.display = 'none';
+  clearDetail();
+}
+
+function selectState(stateId) {
+  var data = STATE_DATA[stateId];
+  if (!data) return;
+  resetZoneStyles('ng-path');
+  var paths = document.querySelectorAll('[data-state="' + stateId + '"] .ng-path');
+  paths.forEach(function(p){
+    p.style.filter = 'drop-shadow(0 0 8px rgba(61,184,139,0.7))';
+    p.setAttribute('stroke-width','2');
+  });
+  document.querySelectorAll('.ng-zone .ng-path').forEach(function(p){
+    var z = p.closest('[data-state]');
+    if(z && z.getAttribute('data-state') !== stateId) p.style.opacity = '0.45';
+  });
+  showDetail(data, stateId === 'lagos');
+  document.getElementById('bc-state').style.display = 'inline';
+  document.getElementById('bc-state-name').textContent = data.name;
+  document.getElementById('bc-area').style.display = 'none';
+}
+
+function selectZone(zoneId) {
+  var data = ZONE_DATA[zoneId];
+  if (!data) return;
+  resetZoneStyles('zone-path');
+  var sel = document.querySelector('[data-zone="' + zoneId + '"] .zone-path');
+  if(sel){ sel.style.filter='drop-shadow(0 0 10px rgba(61,184,139,0.9))'; sel.setAttribute('stroke-width','2.5'); }
+  document.querySelectorAll('.map-zone .zone-path').forEach(function(p){
+    var z = p.closest('[data-zone]');
+    if(z && z.getAttribute('data-zone') !== zoneId) p.style.opacity = '0.45';
+  });
+  showDetail(data, false);
+  document.getElementById('bc-area').style.display = 'inline';
+  document.getElementById('bc-area-name').textContent = data.name;
+}
+
+function showDetail(data, isLagos) {
+  document.getElementById('zone-placeholder').style.display = 'none';
+  var info = document.getElementById('zone-info');
+  info.style.display = 'block';
+  document.getElementById('zi-tag').textContent = data.tag;
+  document.getElementById('zi-name').textContent = data.name;
+  document.getElementById('zi-tier').textContent = data.tier;
+  document.querySelector('#ri-studio .rent-val').textContent = data.studio + '/yr';
+  document.querySelector('#ri-2bed .rent-val').textContent = data.bed2 + '/yr';
+  document.querySelector('#ri-3bed .rent-val').textContent = data.bed3 + '/yr';
+  document.querySelector('#ri-shortlet .rent-val').textContent = data.shortlet + '/night';
+  var trendEl = document.getElementById('zi-trend');
+  var sym = data.trend.charAt(0);
+  trendEl.innerHTML = '<span style="color:' + data.tc + ';margin-right:4px;">' + sym + '</span>' + data.trend.slice(2);
+  var drill = document.getElementById('zi-lagos-drill');
+  drill.style.display = isLagos ? 'block' : 'none';
+  info.style.opacity='0'; info.style.transform='translateY(8px)'; info.style.transition='opacity 0.3s,transform 0.3s';
+  requestAnimationFrame(function(){ info.style.opacity='1'; info.style.transform='translateY(0)'; });
+}
+
+function clearDetail() {
+  document.getElementById('zone-placeholder').style.display = 'flex';
+  document.getElementById('zone-info').style.display = 'none';
+}
+
+function resetZoneStyles(cls) {
+  document.querySelectorAll('.' + cls).forEach(function(p){ p.style.filter='none'; p.style.opacity='1'; p.setAttribute('stroke-width','1.2'); });
+}
+
+function setTab(type, btn) {
+  document.querySelectorAll('.map-tab-btn').forEach(function(b){
+    b.style.background='transparent'; b.style.borderColor='var(--border)'; b.style.color='var(--muted)';
+  });
+  btn.style.background='var(--teal-dim)'; btn.style.borderColor='var(--teal)'; btn.style.color='var(--teal)';
+}
+
+// ── TOOLTIPS ──
+function setupTooltips(zoneSelector, attrName, dataStore, svgId, ttId, ttNameId, ttPriceId) {
+  document.querySelectorAll(zoneSelector).forEach(function(zone){
+    zone.addEventListener('mouseenter', function(){
+      var id = zone.getAttribute(attrName);
+      var data = dataStore[id];
+      if(!data) return;
+      document.getElementById(ttNameId).textContent = data.name;
+      document.getElementById(ttPriceId).textContent = 'From ' + data.studio.split('–')[0].trim() + '/yr';
+      document.getElementById(ttId).style.display = 'block';
+    });
+    zone.addEventListener('mousemove', function(e){
+      var svg = document.getElementById(svgId);
+      var rect = svg.getBoundingClientRect();
+      var vb = svg.viewBox.baseVal;
+      var x = (e.clientX - rect.left) * (vb.width / rect.width);
+      var y = (e.clientY - rect.top) * (vb.height / rect.height);
+      var tt = document.getElementById(ttId);
+      tt.setAttribute('transform','translate('+ Math.min(x+10, vb.width-148) +','+ Math.max(y-56,4) +')');
+    });
+    zone.addEventListener('mouseleave', function(){
+      document.getElementById(ttId).style.display = 'none';
+    });
+  });
+}
+
+setupTooltips('.ng-zone', 'data-state', STATE_DATA, 'nigeria-map', 'map-tooltip',    'tt-name',  'tt-price');
+setupTooltips('.map-zone','data-zone',  ZONE_DATA,  'lagos-map',   'lagos-tooltip',  'ltt-name', 'ltt-price');
+</script>
+
 <!-- WAITLIST -->
-<section id="waitlist" class="bg-charcoal text-white py-32 text-center">
-  <div class="max-w-3xl mx-auto px-6">
-
-    <h2 class="font-display text-4xl">
-      Private Pilot — Q1 2026
-    </h2>
-
-    <p class="mt-6 text-neutral-300">
-      We are onboarding a limited group of multi-property landlords.
-    </p>
-
-    <form
-      class="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
-      action="https://formsubmit.co/48387077d35967510f014a4a73a34d9c"
-      method="POST"
-    >
-      <input
-        type="email"
-        name="email"
-        required
-        placeholder="you@email.com"
-        class="h-14 px-6 rounded-full text-charcoal w-full sm:w-80"
-      />
-      <button
-        type="submit"
-        class="h-14 px-10 bg-gold text-charcoal font-medium rounded-full hover:opacity-90 transition"
-      >
-        Request Access
-      </button>
-    </form>
-
+<section class="waitlist" id="waitlist">
+  <div class="waitlist-bg"></div>
+  <div class="container">
+    <div class="waitlist-inner reveal">
+      <div class="section-tag" style="justify-content:center;">Private Pilot · Q3 2026</div>
+      <h2>Be among the first<br />to experience Rentvyne.</h2>
+      <p class="waitlist-sub">
+        We're onboarding a limited group of multi-property landlords, agents, and shortlet operators
+        for our private pilot. Spots are limited.
+      </p>
+      <form class="waitlist-form" action="https://formsubmit.co/48387077d35967510f014a4a73a34d9c" method="POST">
+        <input class="waitlist-input" type="email" name="email" placeholder="your@email.com" required />
+        <button type="submit" class="btn-primary">Request Access</button>
+      </form>
+      <p class="waitlist-note">No spam. Unsubscribe anytime. We'll reach out directly.</p>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer id="contact" class="bg-stone py-12">
-  <div class="max-w-6xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row justify-between text-sm text-neutral-600">
-    <span>© <span id="year"></span> Rentvyne</span>
-    <span>Lagos, Nigeria</span>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="text-decoration:none;">
+          <img src="images/Return_prime_logo.png" alt="Rentvyne" />
+          <span>Rentvyne</span>
+        </a>
+        <p>Modern property management infrastructure for landlords, tenants, agents, and shortlet operators across Africa.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#services">For Landlords</a></li>
+          <li><a href="#services">For Tenants</a></li>
+          <li><a href="#services">For Agents</a></li>
+          <li><a href="#services">For Shortlets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Rentvyne. All rights reserved.</span>
+      <span>Lagos, Nigeria 🇳🇬</span>
+    </div>
   </div>
 </footer>
 
+<!-- TWEAKS PANEL -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
 <script>
-document.getElementById('year').textContent = new Date().getFullYear();
+// Wire up tweaks using vanilla JS after Babel finishes all scripts
+window.addEventListener('load', function() {
+  var TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accentColor": "#3DB88B",
+    "heroHeadline": "Property management, elevated.",
+    "darkMode": false,
+    "heroLayout": "centered"
+  }/*EDITMODE-END*/;
+
+  function attempt(tries) {
+    if (!window.useTweaks || !window.TweaksPanel || typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      if (tries > 0) setTimeout(function() { attempt(tries - 1); }, 60);
+      return;
+    }
+    mountTweaks();
+  }
+
+  function applyAccent(color) {
+    var r = document.documentElement;
+    r.style.setProperty('--teal', color);
+    r.style.setProperty('--teal-dark', color);
+    r.style.setProperty('--teal-dim', color + '22');
+    r.style.setProperty('--teal-glow', color + '44');
+  }
+  function applyTheme(dark) {
+    var r = document.documentElement;
+    if (!dark) {
+      r.style.setProperty('--bg', '#F5F3EF');
+      r.style.setProperty('--bg-rgb', '245,243,239');
+      r.style.setProperty('--bg2', '#EDEAE4');
+      r.style.setProperty('--bg3', '#E5E0D8');
+      r.style.setProperty('--cream', '#0F1115');
+      r.style.setProperty('--muted', 'rgba(15,17,21,0.55)');
+      r.style.setProperty('--border', 'rgba(15,17,21,0.1)');
+      r.style.setProperty('--map-text', '#0F1115');
+      r.style.setProperty('--card-inner', 'rgba(0,0,0,0.04)');
+      r.style.setProperty('--input-bg', 'rgba(0,0,0,0.05)');
+    } else {
+      r.style.setProperty('--bg', '#0A0C0E');
+      r.style.setProperty('--bg-rgb', '10,12,14');
+      r.style.setProperty('--bg2', '#111418');
+      r.style.setProperty('--bg3', '#161B20');
+      r.style.setProperty('--cream', '#F0EDE8');
+      r.style.setProperty('--muted', 'rgba(240,237,232,0.45)');
+      r.style.setProperty('--border', 'rgba(240,237,232,0.08)');
+      r.style.setProperty('--map-text', '#F0EDE8');
+      r.style.setProperty('--card-inner', 'rgba(255,255,255,0.03)');
+      r.style.setProperty('--input-bg', 'rgba(255,255,255,0.05)');
+    }
+  }
+
+  function mountTweaks() {
+    var TW = window;
+    var tweakRoot = document.getElementById('tweaks-root');
+    if (!tweakRoot) return;
+
+    function TweaksApp() {
+      var hookResult = TW.useTweaks(TWEAK_DEFAULTS);
+      var tweaks = hookResult[0];
+      var setTweak = hookResult[1];
+
+      React.useEffect(function() { applyAccent(tweaks.accentColor); }, [tweaks.accentColor]);
+      React.useEffect(function() { applyTheme(tweaks.darkMode); }, [tweaks.darkMode]);
+      React.useEffect(function() {
+        var h1 = document.querySelector('.hero h1');
+        if (!h1) return;
+        var parts = tweaks.heroHeadline.split(',');
+        h1.innerHTML = parts.length > 1
+          ? parts[0] + ',<br/><span class="accent">' + parts[1].trim() + '</span>'
+          : tweaks.heroHeadline;
+      }, [tweaks.heroHeadline]);
+      React.useEffect(function() {
+        var hero = document.querySelector('.hero');
+        if (!hero) return;
+        hero.style.textAlign = tweaks.heroLayout === 'left-aligned' ? 'left' : 'center';
+        hero.style.alignItems = tweaks.heroLayout === 'left-aligned' ? 'flex-start' : 'center';
+      }, [tweaks.heroLayout]);
+
+      return React.createElement(TW.TweaksPanel, null,
+        React.createElement(TW.TweakSection, {label: 'Brand'},
+          React.createElement(TW.TweakColor, {label: 'Accent Color', value: tweaks.accentColor, onChange: function(v){ setTweak('accentColor', v); }}),
+          React.createElement(TW.TweakToggle, {label: 'Dark Mode', value: tweaks.darkMode, onChange: function(v){ setTweak('darkMode', v); }})
+        ),
+        React.createElement(TW.TweakSection, {label: 'Hero'},
+          React.createElement(TW.TweakText, {label: 'Headline', value: tweaks.heroHeadline, onChange: function(v){ setTweak('heroHeadline', v); }}),
+          React.createElement(TW.TweakRadio, {label: 'Layout', value: tweaks.heroLayout, options: ['centered', 'left-aligned'], onChange: function(v){ setTweak('heroLayout', v); }})
+        )
+      );
+    }
+
+    ReactDOM.createRoot(tweakRoot).render(React.createElement(TweaksApp));
+  }
+
+  attempt(30);
+});
 </script>
 
+<div id="tweaks-root"></div>
+
+<script>
+// Year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Sticky nav
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Hero elements visible immediately
+document.querySelectorAll('.hero .reveal').forEach(el => {
+  setTimeout(() => el.classList.add('visible'), 100);
+});
+</script>
+<style id="__om-edit-overrides">
+.nav-links { color: var(--muted) !important; }
+</style>
 </body>
 </html>
