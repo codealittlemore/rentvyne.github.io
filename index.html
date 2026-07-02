@@ -988,118 +988,6 @@
       color: var(--muted);
     }
 
-    .market-grid {
-      display: grid;
-      grid-template-columns: minmax(340px, 0.8fr) minmax(0, 1fr);
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .market-card {
-      padding: 34px;
-      border: 1px solid var(--line);
-      border-radius: 32px;
-      background: #fff;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .market-card .section-title {
-      margin-bottom: 18px;
-      font-size: clamp(2rem, 4vw, 3.4rem);
-    }
-
-    .map-preview {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 32px;
-      background: #ffffff;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .map-board {
-      min-height: 460px;
-      padding: 18px;
-      border-radius: 26px;
-      background:
-        linear-gradient(90deg, rgba(255, 56, 92, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(255, 56, 92, 0.08) 1px, transparent 1px),
-        #ffffff;
-      background-size: 34px 34px;
-      border: 1px solid var(--line);
-    }
-
-    .map-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-
-    .map-points {
-      position: relative;
-      min-height: 360px;
-    }
-
-    .point {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 8px rgba(255, 56, 92, 0.12);
-    }
-
-    .point::after {
-      content: attr(data-place);
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      min-width: max-content;
-      padding: 7px 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--ink);
-      font-size: 0.74rem;
-      font-weight: 900;
-      box-shadow: 0 10px 24px rgba(16, 33, 26, 0.08);
-    }
-
-    .point.gold {
-      background: var(--gold);
-      box-shadow: 0 0 0 8px rgba(199, 154, 56, 0.15);
-    }
-
-    .insight-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 24px;
-    }
-
-    .insight {
-      padding: 16px;
-      border-radius: 16px;
-      background: #fff4f6;
-    }
-
-    .insight strong {
-      display: block;
-      font-size: 1.4rem;
-      letter-spacing: -0.04em;
-    }
-
-    .insight span {
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
     .waitlist {
       padding-bottom: 100px;
     }
@@ -1275,7 +1163,6 @@
     @media (max-width: 1040px) {
       .hero-grid,
       .platform-grid,
-      .market-grid,
       .cta-panel {
         grid-template-columns: 1fr;
       }
@@ -1361,6 +1248,10 @@
         padding-top: 118px;
       }
 
+      .hero-copy {
+        font-size: 1rem;
+      }
+
       .dashboard {
         grid-template-columns: 1fr;
       }
@@ -1404,11 +1295,36 @@
       }
 
       h1 {
-        font-size: clamp(3rem, 17vw, 4.8rem);
+        font-size: clamp(2.55rem, 13vw, 3.9rem);
+        letter-spacing: -0.06em;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 104px;
+      }
+
+      .hero-grid {
+        gap: 30px;
+      }
+
+      .eyebrow {
+        max-width: 100%;
+        font-size: 0.72rem;
+      }
+
+      .hero-copy {
+        margin-top: 18px;
+        line-height: 1.65;
       }
 
       main > section {
-        padding: 70px 0;
+        padding: 58px 0;
+      }
+
+      .hero-search {
+        margin-top: 24px;
+        padding: 6px;
       }
 
       .hero-actions,
@@ -1418,33 +1334,37 @@
 
       .product-preview,
       .listing-collage {
-        min-height: 500px;
+        min-height: auto;
       }
 
       .listing-card.large {
-        inset: 24px 56px 128px 0;
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: 320px;
+        border-width: 6px;
       }
 
       .listing-card.tall {
-        width: 46%;
-        height: 38%;
+        display: none;
       }
 
       .listing-card.small {
-        width: 52%;
-        height: 30%;
-        right: 0;
+        display: none;
       }
 
       .mini-card {
-        left: 10px;
-        bottom: 72px;
-        width: calc(100% - 20px);
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: 100%;
+        margin-top: 12px;
+        grid-template-columns: 44px 1fr;
+        border-radius: 20px;
       }
 
       .rating-badge {
-        right: 8px;
-        bottom: 212px;
+        display: none;
       }
 
       .form-grid {
@@ -1452,13 +1372,11 @@
       }
 
       .audience-grid,
-      .insight-grid,
       .footer-grid {
         grid-template-columns: 1fr;
       }
 
       .stat,
-      .market-card,
       .cta-copy {
         padding: 24px;
       }
@@ -1467,16 +1385,7 @@
       .image-panel img,
       .cta-media,
       .cta-media img {
-        min-height: 340px;
-      }
-
-      .map-board {
-        min-height: 380px;
-      }
-
-      .point::after {
-        max-width: 170px;
-        white-space: normal;
+        min-height: 300px;
       }
 
       .footer-bottom {
@@ -1498,7 +1407,6 @@
         <a href="#audiences">Solutions</a>
         <a href="#platform">Platform</a>
         <a href="#workflow">Workflow</a>
-        <a href="#market">Rent Map</a>
         <a href="#waitlist">Pilot</a>
       </nav>
 
@@ -1589,8 +1497,8 @@
           <span>shared operating system</span>
         </div>
         <div class="stat">
-          <strong>37</strong>
-          <span>Nigeria markets in rent preview</span>
+          <strong>24/7</strong>
+          <span>portfolio visibility and records</span>
         </div>
         <div class="stat">
           <strong>Q3</strong>
@@ -1752,54 +1660,6 @@
       </div>
     </section>
 
-    <section id="market">
-      <div class="container market-grid">
-        <div class="market-card reveal">
-          <span class="label">Rent Intelligence</span>
-          <h2 class="section-title">Starting in Lagos. Built for Africa.</h2>
-          <p class="section-copy">
-            Nigeria's rental market is still powered by messages, manual follow-ups, and informal records.
-            Rentvyne adds structured data to the work already happening across landlords, agents, and tenants.
-          </p>
-          <div class="insight-grid">
-            <div class="insight">
-              <strong>₦2.4M</strong>
-              <span>sample Lagos average rent / year</span>
-            </div>
-            <div class="insight">
-              <strong>+18%</strong>
-              <span>sample YoY movement preview</span>
-            </div>
-            <div class="insight">
-              <strong>37</strong>
-              <span>states and FCT in preview</span>
-            </div>
-            <div class="insight">
-              <strong>14</strong>
-              <span>Lagos neighbourhoods modeled</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="map-preview reveal" aria-label="Rent intelligence visual preview">
-          <div class="map-board">
-            <div class="map-top">
-              <span>Nigeria rent map preview</span>
-              <span id="map-date">July 2026</span>
-            </div>
-            <div class="map-points">
-              <span class="point" style="left: 18%; top: 62%;" data-place="Lagos · ₦2.4M avg"></span>
-              <span class="point" style="left: 52%; top: 48%;" data-place="FCT Abuja · Premium"></span>
-              <span class="point gold" style="left: 65%; top: 72%;" data-place="Rivers · Mid-high"></span>
-              <span class="point gold" style="left: 38%; top: 34%;" data-place="Kano · Mid-range"></span>
-              <span class="point" style="left: 28%; top: 56%;" data-place="Oyo · Growing"></span>
-              <span class="point gold" style="left: 47%; top: 68%;" data-place="Enugu · Active"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="waitlist" id="waitlist">
       <div class="container">
         <div class="cta-panel reveal">
@@ -1855,7 +1715,6 @@
           <ul>
             <li><a href="#platform">Platform</a></li>
             <li><a href="#workflow">Workflow</a></li>
-            <li><a href="#market">Rent Map</a></li>
             <li><a href="#waitlist">Pilot</a></li>
           </ul>
         </div>
@@ -1879,14 +1738,12 @@
     const toggle = document.querySelector(".nav-toggle");
     const links = document.querySelectorAll(".nav-links a");
     const year = document.getElementById("year");
-    const mapDate = document.getElementById("map-date");
     const rotatorWords = document.querySelectorAll(".rotator-word");
     const accessForm = document.getElementById("access-form");
     const accessSubmit = document.getElementById("access-submit");
     const formStatus = document.getElementById("form-status");
 
     year.textContent = new Date().getFullYear();
-    mapDate.textContent = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 
     let activeWord = 0;
     window.setInterval(() => {
